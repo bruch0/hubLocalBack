@@ -1,4 +1,21 @@
-import { IsString, IsNotEmpty, IsNumber, IsUrl } from 'class-validator';
+import {
+  IsString,
+  IsNotEmpty,
+  IsNumber,
+  IsUrl,
+  Matches,
+} from 'class-validator';
+
+export class GetCompanyDto {
+  @IsNumber()
+  @IsNotEmpty()
+  id?: number;
+
+  @IsString()
+  @IsNotEmpty()
+  @Matches(/^\d{2}\.\d{3}\.\d{3}\/\d{4}\-\d{2}$/)
+  taxId?: string;
+}
 
 export class CreateCompanyDto {
   @IsString()
@@ -12,6 +29,7 @@ export class CreateCompanyDto {
 
   @IsString()
   @IsNotEmpty()
+  @Matches(/^\d{2}\.\d{3}\.\d{3}\/\d{4}\-\d{2}$/)
   taxId: string;
 
   @IsNumber()
@@ -31,6 +49,7 @@ export class UpdateCompanyDto {
 
   @IsString()
   @IsNotEmpty()
+  @Matches(/^\d{2}\.\d{3}\.\d{3}\/\d{4}\-\d{2}$/)
   taxId: string;
 
   @IsNumber()
