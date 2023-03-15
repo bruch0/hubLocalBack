@@ -25,3 +25,13 @@ export class GenericDatabase {
   deleteLocal: (deleteLocalDto: DeleteLocalDto) => Promise<Local>;
   rawQuery: (query: string) => any;
 }
+
+export class GenericEncrypter {
+  encrypt: (data: string) => string;
+  compare: (data: string, hashData: string) => boolean;
+}
+
+export class GenericAuthProvider {
+  sign: (payload: string | { [key: string]: string | number }) => string;
+  verify: (data: string) => string | { [key: string]: string | number };
+}
