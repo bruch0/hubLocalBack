@@ -1,10 +1,11 @@
-import { User, Company, Local } from '@entities';
+import { User, Company, Local, ResponseCompany } from '@entities';
 import {
   CreateCompanyDto,
   CreateLocalDto,
   CreateUserDto,
   DeleteCompanyDto,
   DeleteLocalDto,
+  GetCompanyDto,
   GetCompanyLocalsDto,
   GetUserCompaniesDto,
   LoginUserDto,
@@ -17,10 +18,17 @@ export class GenericDatabase {
   findUser: (loginUserDto: LoginUserDto) => Promise<User>;
   getUserCompanies: (
     getUserCompaniesDto: GetUserCompaniesDto,
-  ) => Promise<Company[]>;
-  createCompany: (createCompanyDto: CreateCompanyDto) => Promise<Company>;
-  updateCompany: (updateCompanyDto: UpdateCompanyDto) => Promise<Company>;
-  deleteCompany: (deleteCompanyDto: DeleteCompanyDto) => Promise<Company>;
+  ) => Promise<ResponseCompany[]>;
+  getCompany: (getCompanyDto: GetCompanyDto) => Promise<Company>;
+  createCompany: (
+    createCompanyDto: CreateCompanyDto,
+  ) => Promise<ResponseCompany>;
+  updateCompany: (
+    updateCompanyDto: UpdateCompanyDto,
+  ) => Promise<ResponseCompany>;
+  deleteCompany: (
+    deleteCompanyDto: DeleteCompanyDto,
+  ) => Promise<ResponseCompany>;
   getCompanyLocals: (
     getCompanyLocalsDto: GetCompanyLocalsDto,
   ) => Promise<Local[]>;
