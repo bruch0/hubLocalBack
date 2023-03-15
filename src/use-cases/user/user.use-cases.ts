@@ -18,11 +18,11 @@ export class UserUseCases {
   ) {}
 
   async createUser(userData: CreateUserDto): Promise<void> {
-    const newNote = this.userFactoryService.createNewUser(userData);
+    const newUser = this.userFactoryService.createNewUser(userData);
 
-    newNote.password = this.encryptService.encrypt(newNote.password);
+    newUser.password = this.encryptService.encrypt(newUser.password);
 
-    await this.databaseService.createUser(newNote);
+    await this.databaseService.createUser(newUser);
   }
 
   async loginUser(userLoginData: LoginUserDto): Promise<string> {
