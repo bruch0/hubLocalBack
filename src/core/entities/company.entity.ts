@@ -6,3 +6,9 @@ export class Company {
   userId: number;
   deleted: boolean;
 }
+
+export class ResponseCompany {
+  name: string;
+  siteUrl: string;
+  taxId: string;
+}
