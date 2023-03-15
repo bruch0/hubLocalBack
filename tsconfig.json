@@ -12,6 +12,7 @@
     "baseUrl": "./",
     "paths": {
       "@controllers": ["src/controllers/index"],
+      "@middlewares": ["src/middlewares/index"],
       "@dtos": ["src/core/dtos/index"],
       "@data-service": ["src/core/data-service/index"],
       "@entities": ["src/core/entities"],
