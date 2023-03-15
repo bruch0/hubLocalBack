@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 
 import { DatabaseService } from '@database/prisma';
 
-import { CompanyFactoryService } from './company.use-cases.service';
+import { CompanyFactoryService } from './company.use-cases.factory';
 import { CompanyUseCases } from './company.use-cases';
 
 @Module({

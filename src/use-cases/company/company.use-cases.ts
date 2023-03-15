@@ -4,7 +4,7 @@ import { DatabaseService } from '@database/prisma';
 
 import { CreateCompanyDto, UpdateCompanyDto, DeleteCompanyDto } from '@dtos';
 
-import { CompanyFactoryService } from './company.use-cases.service';
+import { CompanyFactoryService } from './company.use-cases.factory';
 
 @Injectable()
 export class CompanyUseCases {
@@ -22,12 +22,15 @@ export class CompanyUseCases {
   async updateCompany(companyData: UpdateCompanyDto): Promise<void> {
     const company = this.companyFactoryService.updateCompany(companyData);
 
-    await this.databaseService.createCompany(company);
+    await this.databaseService.updateCompany({
+      ...company,
+      companyId: company.id,
+    });
   }
 
   async deleteCompany(companyData: DeleteCompanyDto): Promise<void> {
     const company = this.companyFactoryService.deleteCompany(companyData);
 
-    await this.databaseService.createCompany(company);
+    await this.databaseService.deleteCompany({ companyId: company.id });
   }
 }
