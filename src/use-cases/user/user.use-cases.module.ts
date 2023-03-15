@@ -4,7 +4,7 @@ import { DatabaseService } from '@database/prisma';
 import { EncryptService } from '@encrypt/bcrypt';
 import { AuthService } from '@auth/jwt';
 
-import { UserFactoryService } from './user.use-cases.service';
+import { UserFactoryService } from './user.use-cases.factory';
 import { UserUseCases } from './user.use-cases';
 
 @Module({

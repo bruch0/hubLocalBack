@@ -6,7 +6,7 @@ import { AuthService } from '@auth/jwt';
 
 import { CreateUserDto, LoginUserDto } from '@dtos';
 
-import { UserFactoryService } from './user.use-cases.service';
+import { UserFactoryService } from './user.use-cases.factory';
 
 @Injectable()
 export class UserUseCases {
