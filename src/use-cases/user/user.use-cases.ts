@@ -18,7 +18,7 @@ export class UserUseCases {
   ) {}
 
   async createUser(userData: CreateUserDto): Promise<void> {
-    const newUser = this.userFactoryService.createNewUser(userData);
+    const newUser = this.userFactoryService.createUser(userData);
 
     newUser.password = this.encryptService.encrypt(newUser.password);
 

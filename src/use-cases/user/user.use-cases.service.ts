@@ -6,7 +6,7 @@ import { CreateUserDto, LoginUserDto } from '@dtos';
 
 @Injectable()
 export class UserFactoryService {
-  createNewUser(createUserDto: CreateUserDto) {
+  createUser(createUserDto: CreateUserDto) {
     const newUser = new User();
 
     newUser.name = createUserDto.name;
