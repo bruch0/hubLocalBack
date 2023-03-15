@@ -20,7 +20,7 @@ model Company {
   id      Int     @id @default(autoincrement())
   name    String
   siteUrl String
-  taxId   String  @unique
+  taxId   String 
   userId  Int
   deleted Boolean @default(false)
 
