@@ -18,7 +18,8 @@
       "@database/*": ["src/frameworks/database/*"],
       "@encrypt/*": ["src/frameworks/encrypt/*"],
       "@auth/*": ["src/frameworks/auth/*"],
-      "@user/*": ["src/use-cases/company/*"]
+      "@user/*": ["src/use-cases/user/*"],
+      "@company/*": ["src/use-cases/company/*"]
     },
     "incremental": true,
     "skipLibCheck": true
