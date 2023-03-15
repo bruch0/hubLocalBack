@@ -1,6 +1,7 @@
 import {
   ConflictException,
   Injectable,
+  NotFoundException,
   UnauthorizedException,
 } from '@nestjs/common';
 
@@ -36,7 +37,7 @@ export class UserUseCases {
 
     const user = await this.databaseService.findUser({ email: userData.email });
 
-    if (!user) throw new UnauthorizedException('Email não registrado');
+    if (!user) throw new NotFoundException('Email não registrado');
 
     const passwordMatch = this.encryptService.compare(
       userData.password,
