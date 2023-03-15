@@ -30,10 +30,11 @@ class PrismaService extends PrismaClient implements OnModuleInit {
 export class DatabaseService implements GenericDatabase {
   prismaService = new PrismaService();
 
-  createUser = async (createUserDto: CreateUserDto) =>
+  createUser = async (createUserDto: CreateUserDto) => {
     await this.prismaService.user.create({ data: createUserDto });
+  };
 
-  findUser = async (loginUserDto: Omit<LoginUserDto, 'password'>) =>
+  findUser = async (loginUserDto: Omit<LoginUserDto, 'password' | 'name'>) =>
     await this.prismaService.user.findFirst({ where: loginUserDto });
 
   getUserCompanies = async (getUserCompaniesDto: GetUserCompaniesDto) =>
