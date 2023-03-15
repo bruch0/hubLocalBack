@@ -20,6 +20,7 @@ export class CompanyFactoryService {
   updateCompany(updateCompanyDto: UpdateCompanyDto) {
     const company = new Company();
 
+    company.id = updateCompanyDto.companyId;
     company.name = updateCompanyDto.name;
     company.siteUrl = updateCompanyDto.siteUrl;
     company.taxId = updateCompanyDto.taxId;
