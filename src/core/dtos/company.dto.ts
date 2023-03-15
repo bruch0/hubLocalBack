@@ -32,6 +32,10 @@ export class UpdateCompanyDto {
   @IsString()
   @IsNotEmpty()
   taxId: string;
+
+  @IsNumber()
+  @IsNotEmpty()
+  companyId: number;
 }
 
 export class DeleteCompanyDto {

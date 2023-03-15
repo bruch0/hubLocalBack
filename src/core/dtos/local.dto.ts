@@ -58,9 +58,9 @@ export class UpdateLocalDto {
   @IsNotEmpty()
   streetAddress: string;
 
-  @IsString()
+  @IsNumber()
   @IsNotEmpty()
-  number: string;
+  number: number;
 
   @IsNumber()
   @IsNotEmpty()
