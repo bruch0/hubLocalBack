@@ -2,7 +2,7 @@ import { Controller, Post, Body, Put } from '@nestjs/common';
 
 import { CreateUserDto, LoginUserDto } from '@dtos';
 
-import { UserUseCases } from 'src/use-cases/user/user.use-cases';
+import { UserUseCases } from '@user/user.use-cases';
 
 @Controller('users')
 export class UserController {
