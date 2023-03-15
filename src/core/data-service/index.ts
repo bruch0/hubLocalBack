@@ -11,7 +11,7 @@ import {
 } from '@dtos';
 
 export class GenericDatabase {
-  createUser: (createUserDto: CreateUserDto) => Promise<User>;
+  createUser: (createUserDto: CreateUserDto) => Promise<void>;
   findUser: (loginUserDto: LoginUserDto) => Promise<User>;
   getUserCompanies: (
     getUserCompaniesDto: GetUserCompaniesDto,
