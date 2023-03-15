@@ -8,12 +8,12 @@ import { UserUseCases } from '@user/user.use-cases';
 export class UserController {
   constructor(private userUseCases: UserUseCases) {}
 
-  @Post()
+  @Post('/register')
   createUser(@Body() userData: CreateUserDto) {
     return this.userUseCases.createUser(userData);
   }
 
-  @Put()
+  @Post('/login')
   updateNote(@Body() userData: LoginUserDto) {
     return this.userUseCases.loginUser(userData);
   }
