@@ -1,4 +1,8 @@
-import { Injectable } from '@nestjs/common';
+import {
+  ConflictException,
+  Injectable,
+  UnauthorizedException,
+} from '@nestjs/common';
 
 import { DatabaseService } from '@database/prisma';
 import { EncryptService } from '@encrypt/bcrypt';
@@ -18,8 +22,10 @@ export class UserUseCases {
   ) {}
 
   async createUser(userData: CreateUserDto): Promise<void> {
-    const newUser = this.userFactoryService.createUser(userData);
+    const user = await this.databaseService.findUser({ email: userData.email });
+    if (user) throw new ConflictException('Usuário já existente');
 
+    const newUser = this.userFactoryService.createUser(userData);
     newUser.password = this.encryptService.encrypt(newUser.password);
 
     await this.databaseService.createUser(newUser);
@@ -28,14 +34,16 @@ export class UserUseCases {
   async loginUser(userLoginData: LoginUserDto): Promise<string> {
     const userData = this.userFactoryService.loginUser(userLoginData);
 
-    const user = await this.databaseService.findUser(userData);
+    const user = await this.databaseService.findUser({ email: userData.email });
+
+    if (!user) throw new UnauthorizedException('Email não registrado');
 
     const passwordMatch = this.encryptService.compare(
       userData.password,
       user.password,
     );
 
-    if (!passwordMatch) throw new Error('Invalid password');
+    if (!passwordMatch) throw new UnauthorizedException('Senha inválida');
 
     return this.authService.sign({ email: user.email, id: user.id });
   }
