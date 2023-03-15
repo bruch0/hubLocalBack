@@ -12,6 +12,8 @@ import {
   GetCompanyLocalsDto,
   GetUserCompaniesDto,
   LoginUserDto,
+  UpdateCompanyDto,
+  UpdateLocalDto,
 } from '@dtos';
 
 class PrismaService extends PrismaClient implements OnModuleInit {
@@ -45,6 +47,15 @@ export class DatabaseService implements GenericDatabase {
   createCompany = async (createCompanyDto: CreateCompanyDto) =>
     await this.prismaService.company.create({ data: createCompanyDto });
 
+  updateCompany = async (updateCompanyDto: UpdateCompanyDto) => {
+    const companyData: Omit<UpdateCompanyDto, 'companyId'> = updateCompanyDto;
+
+    return await this.prismaService.company.update({
+      data: companyData,
+      where: { id: updateCompanyDto.companyId },
+    });
+  };
+
   deleteCompany = async (deleteCompanyDto: DeleteCompanyDto) =>
     await this.prismaService.company.delete({
       where: { id: deleteCompanyDto.companyId },
@@ -63,6 +74,15 @@ export class DatabaseService implements GenericDatabase {
         ...localData,
         company: { connect: { id: createLocalDto.companyId } },
       },
+    });
+  };
+
+  updateLocal = async (updateLocalDto: UpdateLocalDto) => {
+    const localData: Omit<UpdateLocalDto, 'localId'> = updateLocalDto;
+
+    return await this.prismaService.local.update({
+      data: localData,
+      where: { id: updateLocalDto.localId },
     });
   };
 
