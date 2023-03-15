@@ -8,6 +8,8 @@ import {
   GetCompanyLocalsDto,
   GetUserCompaniesDto,
   LoginUserDto,
+  UpdateCompanyDto,
+  UpdateLocalDto,
 } from '@dtos';
 
 export class GenericDatabase {
@@ -17,11 +19,13 @@ export class GenericDatabase {
     getUserCompaniesDto: GetUserCompaniesDto,
   ) => Promise<Company[]>;
   createCompany: (createCompanyDto: CreateCompanyDto) => Promise<Company>;
+  updateCompany: (updateCompanyDto: UpdateCompanyDto) => Promise<Company>;
   deleteCompany: (deleteCompanyDto: DeleteCompanyDto) => Promise<Company>;
   getCompanyLocals: (
     getCompanyLocalsDto: GetCompanyLocalsDto,
   ) => Promise<Local[]>;
   createLocal: (createLocalDto: CreateLocalDto) => Promise<Local>;
+  updateLocal: (updateLocalDto: UpdateLocalDto) => Promise<Local>;
   deleteLocal: (deleteLocalDto: DeleteLocalDto) => Promise<Local>;
   rawQuery: (query: string) => any;
 }
