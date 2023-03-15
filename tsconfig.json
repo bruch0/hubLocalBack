@@ -16,8 +16,9 @@
       "@data-service": ["src/core/data-service/index"],
       "@entities": ["src/core/entities"],
       "@database/*": ["src/frameworks/database/*"],
-      "@company/*": ["src/use-cases/company/*"],
-      "@note/*": ["src/use-cases/note/*"]
+      "@encrypt/*": ["src/frameworks/encrypt/*"],
+      "@auth/*": ["src/frameworks/auth/*"],
+      "@user/*": ["src/use-cases/company/*"]
     },
     "incremental": true,
     "skipLibCheck": true
