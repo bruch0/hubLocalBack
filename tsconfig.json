@@ -1,0 +1,25 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "declaration": true,
+    "removeComments": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "allowSyntheticDefaultImports": true,
+    "target": "es2017",
+    "sourceMap": true,
+    "outDir": "./dist",
+    "baseUrl": "./",
+    "paths": {
+      "@controllers": ["src/controllers/index"],
+      "@dtos": ["src/core/dtos/index"],
+      "@data-service": ["src/core/data-service/index"],
+      "@entities": ["src/core/entities"],
+      "@database/*": ["src/frameworks/database/*"],
+      "@company/*": ["src/use-cases/company/*"],
+      "@note/*": ["src/use-cases/note/*"]
+    },
+    "incremental": true,
+    "skipLibCheck": true
+  }
+}

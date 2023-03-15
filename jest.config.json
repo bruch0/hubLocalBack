@@ -1,0 +1,26 @@
+{
+  "rootDir": "./",
+  "modulePaths": ["<rootDir>/src/"],
+  "moduleFileExtensions": ["js", "json", "ts"],
+  "transform": {
+    "^.+\\.ts$": "ts-jest"
+  },
+  "testRegex": ".*\\.spec\\.ts$",
+  "coverageDirectory": "../coverage",
+  "collectCoverageFrom": ["src/**/*.ts"],
+  "coveragePathIgnorePatterns": [
+    "src/app.module.ts",
+    "src/main.ts",
+    "src/core/data-service"
+  ],
+  "moduleNameMapper": {
+    "@controllers": "<rootDir>/src/controllers/index",
+    "@dtos": ["<rootDir>/src/core/dtos/index"],
+    "@data-service": ["<rootDir>/src/core/data-service/index"],
+    "@entities": ["<rootDir>/src/core/entities"],
+    "@database/(.*)": ["<rootDir>/src/frameworks/database/$1"],
+    "@company/(.*)$": ["<rootDir>/src/use-cases/company/$1"],
+    "@note/(.*)$": ["<rootDir>/src/use-cases/note/$1"]
+  },
+  "modulePathIgnorePatterns": ["dist"]
+}
