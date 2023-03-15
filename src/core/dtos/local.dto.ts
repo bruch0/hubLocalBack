@@ -1,5 +1,11 @@
 import { IsString, IsNotEmpty, IsNumber } from 'class-validator';
 
+export class GetLocalDto {
+  @IsNumber()
+  @IsNotEmpty()
+  id: number;
+}
+
 export class CreateLocalDto {
   @IsString()
   @IsNotEmpty()
@@ -25,7 +31,7 @@ export class CreateLocalDto {
   @IsNotEmpty()
   streetAddress: string;
 
-  @IsString()
+  @IsNumber()
   number: number;
 
   @IsNumber()
@@ -59,7 +65,6 @@ export class UpdateLocalDto {
   streetAddress: string;
 
   @IsNumber()
-  @IsNotEmpty()
   number: number;
 
   @IsNumber()
