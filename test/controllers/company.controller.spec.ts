@@ -13,7 +13,7 @@ import { CompanyUseCases } from '@company/company.use-cases';
 describe('Controller', () => {
   let app: TestingModule;
 
-  const companyUseCases = {
+  const mockedCompanyUseCases = {
     getUserCompanies: () => null,
     createCompany: () => null,
     updateCompany: () => null,
@@ -26,14 +26,14 @@ describe('Controller', () => {
       providers: [DatabaseService, CompanyFactoryService, CompanyUseCases],
     })
       .overrideProvider(CompanyUseCases)
-      .useValue(companyUseCases)
+      .useValue(mockedCompanyUseCases)
       .compile();
   });
 
   describe('Company Controller', () => {
     it('Should call the "getCompanyLocals" usecase', async () => {
       const controller = app.get(CompanyController);
-      jest.spyOn(companyUseCases, 'getUserCompanies');
+      jest.spyOn(mockedCompanyUseCases, 'getUserCompanies');
 
       const getUserCompaniesDto = {
         userId: faker.datatype.number(),
@@ -41,12 +41,12 @@ describe('Controller', () => {
 
       await controller.getUserCompanies(JSON.stringify(getUserCompaniesDto));
 
-      expect(companyUseCases.getUserCompanies).toHaveBeenCalledWith(getUserCompaniesDto);
+      expect(mockedCompanyUseCases.getUserCompanies).toHaveBeenCalledWith(getUserCompaniesDto);
     });
 
     it('Should call the "createCompany" usecase', async () => {
       const controller = app.get(CompanyController);
-      jest.spyOn(companyUseCases, 'createCompany');
+      jest.spyOn(mockedCompanyUseCases, 'createCompany');
 
       const createCompanyDto: CreateCompanyDto = {
         name: faker.name.findName(),
@@ -59,12 +59,12 @@ describe('Controller', () => {
 
       await controller.createCompany(createCompanyDto);
 
-      expect(companyUseCases.createCompany).toHaveBeenCalledWith(createCompanyDto);
+      expect(mockedCompanyUseCases.createCompany).toHaveBeenCalledWith(createCompanyDto);
     });
 
     it('Should call the "updateCompany" usecase', async () => {
       const controller = app.get(CompanyController);
-      jest.spyOn(companyUseCases, 'updateCompany');
+      jest.spyOn(mockedCompanyUseCases, 'updateCompany');
 
       const updateCompanyDto: UpdateCompanyDto = {
         id: faker.datatype.number(),
@@ -77,12 +77,12 @@ describe('Controller', () => {
 
       await controller.updateCompany(updateCompanyDto);
 
-      expect(companyUseCases.updateCompany).toHaveBeenCalledWith(updateCompanyDto);
+      expect(mockedCompanyUseCases.updateCompany).toHaveBeenCalledWith(updateCompanyDto);
     });
 
     it('Should call the "deleteCompany" usecase', async () => {
       const controller = app.get(CompanyController);
-      jest.spyOn(companyUseCases, 'deleteCompany');
+      jest.spyOn(mockedCompanyUseCases, 'deleteCompany');
 
       const deleteCompanyDto: DeleteCompanyDto = {
         id: faker.datatype.number(),
@@ -90,7 +90,7 @@ describe('Controller', () => {
 
       await controller.deleteCompany(deleteCompanyDto);
 
-      expect(companyUseCases.deleteCompany).toHaveBeenCalledWith(deleteCompanyDto);
+      expect(mockedCompanyUseCases.deleteCompany).toHaveBeenCalledWith(deleteCompanyDto);
     });
   });
 });

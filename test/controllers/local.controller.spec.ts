@@ -13,7 +13,7 @@ import { LocalUseCases } from '@local/local.use-cases';
 describe('Controller', () => {
   let app: TestingModule;
 
-  const localUseCases = {
+  const mockedLocalUseCases = {
     getCompanyLocals: () => null,
     createLocal: () => null,
     updateLocal: () => null,
@@ -26,14 +26,14 @@ describe('Controller', () => {
       providers: [DatabaseService, LocalFactoryService, LocalUseCases],
     })
       .overrideProvider(LocalUseCases)
-      .useValue(localUseCases)
+      .useValue(mockedLocalUseCases)
       .compile();
   });
 
   describe('Local Controller', () => {
     it('Should call the "getCompanyLocals" usecase', async () => {
       const controller = app.get(LocalController);
-      jest.spyOn(localUseCases, 'getCompanyLocals');
+      jest.spyOn(mockedLocalUseCases, 'getCompanyLocals');
 
       const getCompanyLocalsDto = {
         companyId: faker.datatype.number(),
@@ -45,12 +45,12 @@ describe('Controller', () => {
         JSON.stringify(getCompanyLocalsDto),
       );
 
-      expect(localUseCases.getCompanyLocals).toHaveBeenCalledWith(getCompanyLocalsDto);
+      expect(mockedLocalUseCases.getCompanyLocals).toHaveBeenCalledWith(getCompanyLocalsDto);
     });
 
     it('Should call the "createLocal" usecase', async () => {
       const controller = app.get(LocalController);
-      jest.spyOn(localUseCases, 'createLocal');
+      jest.spyOn(mockedLocalUseCases, 'createLocal');
 
       const createLocalDto: CreateLocalDto = {
         name: faker.name.findName(),
@@ -64,12 +64,12 @@ describe('Controller', () => {
 
       await controller.createLocal(createLocalDto);
 
-      expect(localUseCases.createLocal).toHaveBeenCalledWith(createLocalDto);
+      expect(mockedLocalUseCases.createLocal).toHaveBeenCalledWith(createLocalDto);
     });
 
     it('Should call the "updateLocal" usecase', async () => {
       const controller = app.get(LocalController);
-      jest.spyOn(localUseCases, 'updateLocal');
+      jest.spyOn(mockedLocalUseCases, 'updateLocal');
 
       const updateLocalDto: UpdateLocalDto = {
         id: faker.datatype.number(),
@@ -83,12 +83,12 @@ describe('Controller', () => {
 
       await controller.updateLocal(updateLocalDto);
 
-      expect(localUseCases.updateLocal).toHaveBeenCalledWith(updateLocalDto);
+      expect(mockedLocalUseCases.updateLocal).toHaveBeenCalledWith(updateLocalDto);
     });
 
     it('Should call the "deleteLocal" usecase', async () => {
       const controller = app.get(LocalController);
-      jest.spyOn(localUseCases, 'deleteLocal');
+      jest.spyOn(mockedLocalUseCases, 'deleteLocal');
 
       const deleteLocalDto: DeleteLocalDto = {
         id: faker.datatype.number(),
@@ -96,7 +96,7 @@ describe('Controller', () => {
 
       await controller.deleteLocal(deleteLocalDto);
 
-      expect(localUseCases.deleteLocal).toHaveBeenCalledWith(deleteLocalDto);
+      expect(mockedLocalUseCases.deleteLocal).toHaveBeenCalledWith(deleteLocalDto);
     });
   });
 });

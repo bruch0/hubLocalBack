@@ -13,7 +13,7 @@ import { UserUseCases } from '@user/user.use-cases';
 describe('Controller', () => {
   let app: TestingModule;
 
-  const userUseCases = {
+  const mockedUserUseCases = {
     createUser: () => null,
     loginUser: () => null,
   };
@@ -24,14 +24,14 @@ describe('Controller', () => {
       providers: [DatabaseService, UserFactoryService, UserUseCases],
     })
       .overrideProvider(UserUseCases)
-      .useValue(userUseCases)
+      .useValue(mockedUserUseCases)
       .compile();
   });
 
   describe('User Controller', () => {
     it('Should call the "createUser" usecase', async () => {
       const controller = app.get(UserController);
-      jest.spyOn(userUseCases, 'createUser');
+      jest.spyOn(mockedUserUseCases, 'createUser');
 
       const createUserDto: CreateUserDto = {
         name: faker.name.findName(),
@@ -41,12 +41,12 @@ describe('Controller', () => {
 
       await controller.createUser(createUserDto);
 
-      expect(userUseCases.createUser).toHaveBeenCalledWith(createUserDto);
+      expect(mockedUserUseCases.createUser).toHaveBeenCalledWith(createUserDto);
     });
 
     it('Should call the "loginUser" usecase', async () => {
       const controller = app.get(UserController);
-      jest.spyOn(userUseCases, 'loginUser');
+      jest.spyOn(mockedUserUseCases, 'loginUser');
 
       const loginUserDto: LoginUserDto = {
         email: faker.internet.email(),
@@ -55,7 +55,7 @@ describe('Controller', () => {
 
       await controller.loginUser(loginUserDto);
 
-      expect(userUseCases.loginUser).toHaveBeenCalledWith(loginUserDto);
+      expect(mockedUserUseCases.loginUser).toHaveBeenCalledWith(loginUserDto);
     });
   });
 });
