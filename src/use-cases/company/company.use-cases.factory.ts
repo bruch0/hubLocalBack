@@ -16,10 +16,12 @@ type UpdateCompanyFactoryReturn = {
   name: string;
   siteUrl: string;
   taxId: string;
+  userId: number;
 };
 
 type DeleteCompanyFactoryReturn = {
   id: number;
+  userId: number;
 };
 
 @Injectable()

@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
 
 import { DatabaseService } from '@database/prisma';
 
@@ -36,7 +36,10 @@ export class LocalUseCases {
     const validLocal = await this.databaseService.findLocal({
       id: local.id,
     });
+
     if (!validLocal) throw new NotFoundException('Local não existente');
+
+    if (validLocal.company.userId !== local.userId) throw new ForbiddenException();
 
     return await this.databaseService.updateLocal(local);
   }
@@ -48,6 +51,8 @@ export class LocalUseCases {
       id: local.id,
     });
     if (!validLocal) throw new NotFoundException('Local não existente');
+
+    if (validLocal.company.userId !== local.userId) throw new ForbiddenException();
 
     return await this.databaseService.deleteLocal(local);
   }

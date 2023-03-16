@@ -1,4 +1,10 @@
-import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
+import {
+  ConflictException,
+  ForbiddenException,
+  Injectable,
+  NotFoundException,
+  UnauthorizedException,
+} from '@nestjs/common';
 
 import { DatabaseService } from '@database/prisma';
 
@@ -43,6 +49,8 @@ export class CompanyUseCases {
     });
     if (!validCompany) throw new NotFoundException('Empresa não existente');
 
+    if (validCompany.userId !== company.userId) throw new ForbiddenException();
+
     const taxIdIsTaken = await this.databaseService.findCompany({
       taxId: company.taxId,
     });
@@ -59,6 +67,8 @@ export class CompanyUseCases {
       id: company.id,
     });
     if (!validCompany) throw new NotFoundException('Empresa não existente');
+
+    if (validCompany.userId !== company.userId) throw new ForbiddenException();
 
     return await this.databaseService.deleteCompany(company);
   }

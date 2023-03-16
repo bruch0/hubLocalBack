@@ -25,16 +25,19 @@ type UpdateLocalFactoryReturn = {
   streetAddress: string;
   companyId: number;
   number?: number;
+  userId: number;
 };
 
 type DeleteLocalFactoryReturn = {
   id: number;
+  companyId: number;
+  userId: number;
 };
 
 @Injectable()
 export class LocalFactoryService {
-  createLocal(createLocalDto: CreateLocalDto): CreateLocalFactoryReturn {
-    const newLocal: CreateLocalFactoryReturn = new Local(createLocalDto);
+  createLocal(createLocalDto: CreateLocalDto): Omit<CreateLocalFactoryReturn, 'userId'> {
+    const newLocal: Omit<CreateLocalFactoryReturn, 'userId'> = new Local(createLocalDto);
 
     return newLocal;
   }
