@@ -32,7 +32,7 @@ export class CreateLocalDto {
   streetAddress: string;
 
   @IsNumber()
-  number: number;
+  number?: number;
 
   @IsNumber()
   @IsNotEmpty()
@@ -65,7 +65,7 @@ export class UpdateLocalDto {
   streetAddress: string;
 
   @IsNumber()
-  number: number;
+  number?: number;
 
   @IsNumber()
   @IsNotEmpty()

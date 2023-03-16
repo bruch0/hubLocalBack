@@ -10,3 +10,14 @@ export class Local {
   companyId: number;
   deleted: boolean;
 }
+
+export class ResponseLocal {
+  name: string;
+  zipcode: string;
+  state: string;
+  city: string;
+  neighborhood: string;
+  streetAddress: string;
+  number?: number;
+  companyId: number;
+}
