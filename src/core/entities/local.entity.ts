@@ -6,9 +6,9 @@ export class Local {
   city: string;
   neighborhood: string;
   streetAddress: string;
-  number?: number;
   companyId: number;
   deleted: boolean;
+  number?: number;
 }
 
 export class ResponseLocal {
@@ -18,6 +18,6 @@ export class ResponseLocal {
   city: string;
   neighborhood: string;
   streetAddress: string;
-  number?: number;
   companyId: number;
+  number?: number;
 }
