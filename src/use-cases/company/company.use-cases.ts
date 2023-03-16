@@ -23,11 +23,10 @@ export class CompanyUseCases {
     });
     if (!validUser) throw new NotFoundException('Usuário não existe');
 
-    const company = await this.databaseService.findCompany({
+    const taxIdIsTaken = await this.databaseService.findCompany({
       taxId: newCompany.taxId,
     });
-
-    if (company) throw new ConflictException('CNPJ já cadastrado');
+    if (taxIdIsTaken) throw new ConflictException('CNPJ já cadastrado');
 
     return await this.databaseService.createCompany(newCompany);
   }
@@ -38,20 +37,15 @@ export class CompanyUseCases {
     const validCompany = await this.databaseService.findCompany({
       id: company.id,
     });
-
     if (!validCompany) throw new NotFoundException('Empresa não existente');
 
-    const invalidTaxId = await this.databaseService.findCompany({
+    const taxIdIsTaken = await this.databaseService.findCompany({
       taxId: company.taxId,
     });
-
-    if (invalidTaxId && company.id !== invalidTaxId.id)
+    if (taxIdIsTaken && company.id !== taxIdIsTaken.id)
       throw new ConflictException('CNPJ já cadastrado');
 
-    return await this.databaseService.updateCompany({
-      ...company,
-      companyId: company.id,
-    });
+    return await this.databaseService.updateCompany(company);
   }
 
   async deleteCompany(companyData: DeleteCompanyDto): Promise<void> {
@@ -60,9 +54,8 @@ export class CompanyUseCases {
     const validCompany = await this.databaseService.findCompany({
       id: company.id,
     });
-
     if (!validCompany) throw new NotFoundException('Empresa não existente');
 
-    await this.databaseService.deleteCompany({ companyId: company.id });
+    await this.databaseService.deleteCompany(company);
   }
 }

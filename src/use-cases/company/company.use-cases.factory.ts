@@ -4,34 +4,40 @@ import { Company } from '@entities';
 
 import { CreateCompanyDto, UpdateCompanyDto, DeleteCompanyDto } from '@dtos';
 
+type CreateCompanyFactoryReturn = {
+  name: string;
+  siteUrl: string;
+  taxId: string;
+  userId: number;
+};
+
+type UpdateCompanyFactoryReturn = {
+  id: number;
+  name: string;
+  siteUrl: string;
+  taxId: string;
+};
+
+type DeleteCompanyFactoryReturn = {
+  id: number;
+};
+
 @Injectable()
 export class CompanyFactoryService {
-  createCompany(createCompanyDto: CreateCompanyDto) {
-    const newCompany = new Company();
-
-    newCompany.name = createCompanyDto.name;
-    newCompany.siteUrl = createCompanyDto.siteUrl;
-    newCompany.taxId = createCompanyDto.taxId;
-    newCompany.userId = createCompanyDto.userId;
+  createCompany(createCompanyDto: CreateCompanyDto): CreateCompanyFactoryReturn {
+    const newCompany: CreateCompanyFactoryReturn = new Company(createCompanyDto);
 
     return newCompany;
   }
 
-  updateCompany(updateCompanyDto: UpdateCompanyDto) {
-    const company = new Company();
-
-    company.id = updateCompanyDto.companyId;
-    company.name = updateCompanyDto.name;
-    company.siteUrl = updateCompanyDto.siteUrl;
-    company.taxId = updateCompanyDto.taxId;
+  updateCompany(updateCompanyDto: UpdateCompanyDto): UpdateCompanyFactoryReturn {
+    const company: UpdateCompanyFactoryReturn = new Company(updateCompanyDto);
 
     return company;
   }
 
-  deleteCompany(deleteCompanyDto: DeleteCompanyDto) {
-    const company = new Company();
-
-    company.id = deleteCompanyDto.companyId;
+  deleteCompany(deleteCompanyDto: DeleteCompanyDto): DeleteCompanyFactoryReturn {
+    const company: DeleteCompanyFactoryReturn = new Company(deleteCompanyDto);
 
     return company;
   }
