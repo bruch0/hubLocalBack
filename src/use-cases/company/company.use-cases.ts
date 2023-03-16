@@ -22,6 +22,11 @@ export class CompanyUseCases {
   async createCompany(companyData: CreateCompanyDto): Promise<ResponseCompany> {
     const newCompany = this.companyFactoryService.createCompany(companyData);
 
+    const validUser = await this.databaseService.findUser({
+      id: newCompany.userId,
+    });
+    if (!validUser) throw new NotFoundException('Usuário não existe');
+
     const company = await this.databaseService.getCompany({
       taxId: newCompany.taxId,
     });
@@ -55,6 +60,12 @@ export class CompanyUseCases {
 
   async deleteCompany(companyData: DeleteCompanyDto): Promise<void> {
     const company = this.companyFactoryService.deleteCompany(companyData);
+
+    const validCompany = await this.databaseService.getCompany({
+      id: company.id,
+    });
+
+    if (!validCompany) throw new NotFoundException('Empresa não existente');
 
     await this.databaseService.deleteCompany({ companyId: company.id });
   }
