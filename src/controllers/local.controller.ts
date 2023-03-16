@@ -1,4 +1,14 @@
-import { Controller, Post, Body, Put, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Body,
+  Put,
+  Delete,
+  Get,
+  Param,
+  ParseIntPipe,
+  Headers,
+} from '@nestjs/common';
 
 import { CreateLocalDto, DeleteLocalDto, UpdateLocalDto } from '@dtos';
 
@@ -7,6 +17,16 @@ import { LocalUseCases } from '@local/local.use-cases';
 @Controller('locals')
 export class LocalController {
   constructor(private localUseCases: LocalUseCases) {}
+
+  @Get('/:companyId')
+  getuserCompanies(
+    @Param('companyId', ParseIntPipe) companyId: number,
+    @Headers('authorization') authorization: string,
+  ) {
+    const { userId } = JSON.parse(authorization);
+
+    return this.localUseCases.getCompanyLocals({ companyId, userId });
+  }
 
   @Post()
   createLocal(@Body() localData: CreateLocalDto) {

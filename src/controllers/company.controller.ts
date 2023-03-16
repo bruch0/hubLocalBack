@@ -1,4 +1,4 @@
-import { Controller, Post, Body, Put, Delete } from '@nestjs/common';
+import { Controller, Post, Body, Put, Delete, Get, Headers } from '@nestjs/common';
 
 import { CreateCompanyDto, UpdateCompanyDto, DeleteCompanyDto } from '@dtos';
 
@@ -7,6 +7,13 @@ import { CompanyUseCases } from '@company/company.use-cases';
 @Controller('companies')
 export class CompanyController {
   constructor(private companyUseCases: CompanyUseCases) {}
+
+  @Get('')
+  getuserCompanies(@Headers('authorization') authorization: string) {
+    const { userId } = JSON.parse(authorization);
+
+    return this.companyUseCases.getUserCompanies({ userId });
+  }
 
   @Post()
   createCompany(@Body() companyData: CreateCompanyDto) {
