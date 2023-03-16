@@ -14,7 +14,7 @@ import { UserFactoryService } from '@user/user.use-cases.factory';
 
 describe('User Usecases', () => {
   let app: TestingModule;
-  let userUseCase: UserUseCases;
+  let userUseCases: UserUseCases;
 
   const mockedEncryptService: EncryptService = {
     encrypt: () => faker.lorem.word(),
@@ -60,7 +60,7 @@ describe('User Usecases', () => {
       .useValue(mockedUserFactoryService)
       .compile();
 
-    userUseCase = app.get(UserUseCases);
+    userUseCases = app.get(UserUseCases);
   });
 
   it('Should throw an error if email provided is already taken', async () => {
@@ -73,7 +73,7 @@ describe('User Usecases', () => {
     };
 
     expect(async () => {
-      await userUseCase.createUser(createUserDto);
+      await userUseCases.createUser(createUserDto);
     }).rejects.toThrow('Email já cadastrado');
   });
 
@@ -90,7 +90,7 @@ describe('User Usecases', () => {
       password: faker.internet.password(),
     };
 
-    const result = await userUseCase.createUser(createUserDto);
+    const result = await userUseCases.createUser(createUserDto);
 
     expect(mockedDatabaseService.findUser).toHaveBeenCalled();
     expect(mockedDatabaseService.createUser).toHaveBeenCalled();
@@ -107,7 +107,7 @@ describe('User Usecases', () => {
     };
 
     expect(async () => {
-      await userUseCase.loginUser(loginUserDto);
+      await userUseCases.loginUser(loginUserDto);
     }).rejects.toThrow('Email não registrado');
   });
 
@@ -121,7 +121,7 @@ describe('User Usecases', () => {
     };
 
     expect(async () => {
-      await userUseCase.loginUser(loginUserDto);
+      await userUseCases.loginUser(loginUserDto);
     }).rejects.toThrow('Senha inválida');
   });
 
@@ -138,7 +138,7 @@ describe('User Usecases', () => {
       password: faker.internet.password(),
     };
 
-    const result = await userUseCase.loginUser(loginUserDto);
+    const result = await userUseCases.loginUser(loginUserDto);
 
     expect(mockedDatabaseService.findUser).toHaveBeenCalled();
     expect(mockedEncryptService.compare).toHaveBeenCalled();
