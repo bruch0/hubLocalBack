@@ -5,6 +5,7 @@ import {
   generateCreateUserDto,
   generateFindCompanyDto,
   generateFindUserDto,
+  generateUpdateCompanyDto,
 } from './database.utils';
 
 class testDatabaseService extends DatabaseService {
@@ -13,6 +14,10 @@ class testDatabaseService extends DatabaseService {
 
 describe('Database Service', () => {
   const databaseService = new testDatabaseService();
+
+  beforeAll(async () => {
+    await databaseService.rawQuery('Truncate Only "Local", "Company", "User" Restart Identity');
+  });
 
   it('Should return null when looking for an inexistent user', async () => {
     const findUserDto = generateFindUserDto();
@@ -83,5 +88,23 @@ describe('Database Service', () => {
 
     delete createCompanyDto.userId;
     expect(result).toEqual(createCompanyDto);
+  });
+
+  it('Should throw an error when the companyId is invalid', async () => {
+    const updateCompanyDto = generateUpdateCompanyDto();
+
+    expect(async () => {
+      await databaseService.updateCompany(updateCompanyDto);
+    }).rejects.toThrow();
+  });
+
+  it('Should return the updated company when companyId id valid', async () => {
+    const updateCompanyDto = generateUpdateCompanyDto();
+    updateCompanyDto.id = 1;
+
+    const result = await databaseService.updateCompany(updateCompanyDto);
+
+    delete updateCompanyDto.id;
+    expect(result).toEqual(updateCompanyDto);
   });
 });
