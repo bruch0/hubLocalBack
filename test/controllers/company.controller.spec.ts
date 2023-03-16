@@ -14,6 +14,7 @@ describe('Controller', () => {
   let app: TestingModule;
 
   const companyUseCases = {
+    getUserCompanies: () => null,
     createCompany: () => null,
     updateCompany: () => null,
     deleteCompany: () => null,
@@ -30,6 +31,19 @@ describe('Controller', () => {
   });
 
   describe('Company Controller', () => {
+    it('Should call the "getCompanyLocals" usecase', async () => {
+      const controller = app.get(CompanyController);
+      jest.spyOn(companyUseCases, 'getUserCompanies');
+
+      const getUserCompaniesDto = {
+        userId: faker.datatype.number(),
+      };
+
+      await controller.getUserCompanies(JSON.stringify(getUserCompaniesDto));
+
+      expect(companyUseCases.getUserCompanies).toHaveBeenCalledWith(getUserCompaniesDto);
+    });
+
     it('Should call the "createCompany" usecase', async () => {
       const controller = app.get(CompanyController);
       jest.spyOn(companyUseCases, 'createCompany');

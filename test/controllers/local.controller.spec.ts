@@ -14,6 +14,7 @@ describe('Controller', () => {
   let app: TestingModule;
 
   const localUseCases = {
+    getCompanyLocals: () => null,
     createLocal: () => null,
     updateLocal: () => null,
     deleteLocal: () => null,
@@ -30,6 +31,23 @@ describe('Controller', () => {
   });
 
   describe('Local Controller', () => {
+    it('Should call the "getCompanyLocals" usecase', async () => {
+      const controller = app.get(LocalController);
+      jest.spyOn(localUseCases, 'getCompanyLocals');
+
+      const getCompanyLocalsDto = {
+        companyId: faker.datatype.number(),
+        userId: faker.datatype.number(),
+      };
+
+      await controller.getCompanyLocals(
+        getCompanyLocalsDto.companyId,
+        JSON.stringify(getCompanyLocalsDto),
+      );
+
+      expect(localUseCases.getCompanyLocals).toHaveBeenCalledWith(getCompanyLocalsDto);
+    });
+
     it('Should call the "createLocal" usecase', async () => {
       const controller = app.get(LocalController);
       jest.spyOn(localUseCases, 'createLocal');
