@@ -14,7 +14,7 @@ export class UserController {
   }
 
   @Post('/login')
-  updateNote(@Body() userData: LoginUserDto) {
+  loginUser(@Body() userData: LoginUserDto) {
     return this.userUseCases.loginUser(userData);
   }
 }
