@@ -9,15 +9,16 @@ export class AuthMiddleware implements NestMiddleware {
 
   use(request: Request, _: Response, next: NextFunction) {
     const authHeader = request.headers.authorization;
-    if (authHeader == null || !/Bearer [a-zA-Z0-9]/.test(authHeader))
-      throw new UnauthorizedException('Você precisa estar logado');
+    if (authHeader == null) throw new UnauthorizedException('Autorização necessária');
+
+    if (!/Bearer ([\w-]*\.[\w-]*\.[\w-]*$)/.test(authHeader))
+      throw new UnauthorizedException('Formato Bearer token esperado');
 
     const token = authHeader.replace('Bearer ', '');
 
-    const validToken = this.authService.verify(token);
-    if (!validToken) throw new UnauthorizedException('Você precisa estar logado');
+    const payload = this.authService.verify(token);
 
-    request.headers.authorization = JSON.stringify(validToken);
+    request.headers.authorization = JSON.stringify(payload);
 
     next();
   }
