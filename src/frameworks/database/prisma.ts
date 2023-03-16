@@ -81,7 +81,7 @@ export class DatabaseService implements GenericDatabase {
   deleteCompany = async (deleteCompanyDto: DeleteCompanyDto) =>
     await this.prismaService.company.update({
       data: { deleted: true },
-      where: deleteCompanyDto,
+      where: { id: deleteCompanyDto.id },
       select: {
         name: true,
         taxId: true,
@@ -106,9 +106,20 @@ export class DatabaseService implements GenericDatabase {
       },
     });
   };
+
   findLocal = async (findLocalDto: FindLocalDto) =>
     await this.prismaService.local.findFirst({
       where: { ...findLocalDto, deleted: false },
+      select: {
+        name: true,
+        zipcode: true,
+        state: true,
+        city: true,
+        neighborhood: true,
+        streetAddress: true,
+        number: true,
+        company: { select: { userId: true } },
+      },
     });
 
   createLocal = async (createLocalDto: CreateLocalDto) =>
@@ -122,12 +133,14 @@ export class DatabaseService implements GenericDatabase {
         neighborhood: true,
         streetAddress: true,
         number: true,
+        company: { select: { userId: true } },
       },
     });
 
   updateLocal = async (updateLocalDto: UpdateLocalDto) => {
     const localUpdateData: UpdateLocalDto = { ...updateLocalDto };
     delete localUpdateData.id;
+    delete localUpdateData.userId;
 
     return await this.prismaService.local.update({
       data: localUpdateData,
@@ -146,7 +159,7 @@ export class DatabaseService implements GenericDatabase {
 
   deleteLocal = async (deleteLocalDto: DeleteLocalDto) =>
     await this.prismaService.local.delete({
-      where: deleteLocalDto,
+      where: { id: deleteLocalDto.id },
       select: {
         name: true,
         zipcode: true,
