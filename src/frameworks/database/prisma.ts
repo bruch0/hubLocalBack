@@ -108,6 +108,7 @@ export class DatabaseService implements GenericDatabase {
         city: true,
         neighborhood: true,
         streetAddress: true,
+        number: true,
       },
     });
 
@@ -125,6 +126,7 @@ export class DatabaseService implements GenericDatabase {
         city: true,
         neighborhood: true,
         streetAddress: true,
+        number: true,
       },
     });
   };
@@ -139,6 +141,7 @@ export class DatabaseService implements GenericDatabase {
         city: true,
         neighborhood: true,
         streetAddress: true,
+        number: true,
       },
     });
 }

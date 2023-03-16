@@ -2,11 +2,15 @@ import { DatabaseService } from '@database/prisma';
 
 import {
   generateCreateCompanyDto,
+  generateCreateLocalDto,
   generateCreateUserDto,
   generateDeleteCompanyDto,
+  generateDeleteLocalDto,
   generateFindCompanyDto,
+  generateFindLocalDto,
   generateFindUserDto,
   generateUpdateCompanyDto,
+  generateUpdateLocalDto,
 } from './database.utils';
 
 class testDatabaseService extends DatabaseService {
@@ -127,6 +131,85 @@ describe('Database Service', () => {
       name: expect.any(String),
       siteUrl: expect.any(String),
       taxId: expect.any(String),
+    });
+  });
+
+  it('Should return null when looking for an inexistent local', async () => {
+    const findLocalDto = generateFindLocalDto();
+
+    const result = await databaseService.findLocal(findLocalDto);
+
+    expect(result).toEqual(null);
+  });
+
+  it('Should return a local when looking for an existent local', async () => {
+    const createLocalDto = generateCreateLocalDto();
+    createLocalDto.companyId = 1;
+    await databaseService.createLocal(createLocalDto);
+
+    const result = await databaseService.findLocal({ id: 1 });
+
+    expect(result).toEqual({ ...createLocalDto, id: expect.any(Number), deleted: false });
+  });
+
+  it('Should throw an error when the companyId is invalid', async () => {
+    const createLocalDto = generateCreateLocalDto();
+
+    expect(async () => {
+      await databaseService.createLocal(createLocalDto);
+    }).rejects.toThrow();
+  });
+
+  it('Should create and return the local data when the companyId is valid', async () => {
+    const createLocalDto = generateCreateLocalDto();
+    createLocalDto.companyId = 1;
+
+    const result = await databaseService.createLocal(createLocalDto);
+
+    delete createLocalDto.companyId;
+    expect(result).toEqual({ ...createLocalDto, number: expect.any(Number) });
+  });
+
+  it('Should throw an error when the localId is invalid', async () => {
+    const updateLocalDto = generateUpdateLocalDto();
+
+    expect(async () => {
+      await databaseService.updateLocal(updateLocalDto);
+    }).rejects.toThrow();
+  });
+
+  it('Should return the updated local when localId id valid', async () => {
+    const updateLocalDto = generateUpdateLocalDto();
+    updateLocalDto.id = 1;
+
+    const result = await databaseService.updateLocal(updateLocalDto);
+
+    delete updateLocalDto.id;
+    expect(result).toEqual({ ...updateLocalDto, number: expect.any(Number) });
+  });
+
+  it('Should throw an error when the localId is invalid', async () => {
+    const deleteLocalDto = generateDeleteLocalDto();
+
+    expect(async () => {
+      await databaseService.deleteLocal(deleteLocalDto);
+    }).rejects.toThrow();
+  });
+
+  it('Should return the deleted local when localId id valid', async () => {
+    const deleteLocalDto = generateDeleteLocalDto();
+    deleteLocalDto.id = 1;
+
+    const result = await databaseService.deleteLocal(deleteLocalDto);
+
+    expect(result).toEqual({
+      name: expect.any(String),
+      zipcode: expect.any(String),
+      state: expect.any(String),
+      city: expect.any(String),
+      neighborhood: expect.any(String),
+      streetAddress: expect.any(String),
+      number: expect.any(Number),
     });
   });
 });
