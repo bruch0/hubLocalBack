@@ -5,10 +5,10 @@ type UserDto = {
 };
 
 export class User {
-  constructor(createUserDto: UserDto) {
-    this.name = createUserDto.name;
-    this.email = createUserDto.email;
-    this.password = createUserDto.password;
+  constructor(userDto: UserDto) {
+    this.name = userDto.name;
+    this.email = userDto.email;
+    this.password = userDto.password;
   }
 
   id: number;
