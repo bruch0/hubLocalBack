@@ -82,4 +82,8 @@ export class GetCompanyLocalsDto {
   @IsNumber()
   @IsNotEmpty()
   companyId: number;
+
+  @IsNumber()
+  @IsNotEmpty()
+  userId: number;
 }
