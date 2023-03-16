@@ -18,6 +18,5 @@ export class ResponseLocal {
   city: string;
   neighborhood: string;
   streetAddress: string;
-  companyId: number;
   number?: number;
 }
