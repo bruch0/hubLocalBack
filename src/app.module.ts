@@ -14,6 +14,10 @@ import { LocalUseCasesModule } from '@local/local.use-cases.module';
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
-    consumer.apply(AuthMiddleware).forRoutes(CompanyController);
+    consumer
+      .apply(AuthMiddleware)
+      .forRoutes(CompanyController)
+      .apply(AuthMiddleware)
+      .forRoutes(LocalController);
   }
 }
