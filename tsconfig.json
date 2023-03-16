@@ -20,7 +20,8 @@
       "@encrypt/*": ["src/frameworks/encrypt/*"],
       "@auth/*": ["src/frameworks/auth/*"],
       "@user/*": ["src/use-cases/user/*"],
-      "@company/*": ["src/use-cases/company/*"]
+      "@company/*": ["src/use-cases/company/*"],
+      "@local/*": ["src/use-cases/local/*"]
     },
     "incremental": true,
     "skipLibCheck": true
