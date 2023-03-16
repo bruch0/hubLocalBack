@@ -11,6 +11,8 @@ import { AuthService } from '@auth/jwt';
 
 import { CreateUserDto, LoginUserDto } from '@dtos';
 
+import { ResponseUser } from '@entities';
+
 import { UserFactoryService } from './user.use-cases.factory';
 
 @Injectable()
@@ -22,27 +24,25 @@ export class UserUseCases {
     private userFactoryService: UserFactoryService,
   ) {}
 
-  async createUser(userData: CreateUserDto): Promise<void> {
-    const user = await this.databaseService.findUser({ email: userData.email });
-    if (user) throw new ConflictException('Usuário já existente');
+  async createUser(userData: CreateUserDto): Promise<ResponseUser> {
+    const emailIsTaken = await this.databaseService.findUser({ email: userData.email });
+    if (emailIsTaken) throw new ConflictException('Email já cadastrado');
 
     const newUser = this.userFactoryService.createUser(userData);
     newUser.password = this.encryptService.encrypt(newUser.password);
 
-    await this.databaseService.createUser(newUser);
+    return await this.databaseService.createUser(newUser);
   }
 
-  async loginUser(userLoginData: LoginUserDto): Promise<string> {
+  async loginUser(userLoginData: LoginUserDto): Promise<{ token: string }> {
     const userData = this.userFactoryService.loginUser(userLoginData);
 
-    const user = await this.databaseService.findUser({ email: userData.email });
+    const validUser = await this.databaseService.findUser({ email: userData.email });
+    if (!validUser) throw new NotFoundException('Email não registrado');
 
-    if (!user) throw new NotFoundException('Email não registrado');
-
-    const passwordMatch = this.encryptService.compare(userData.password, user.password);
-
+    const passwordMatch = this.encryptService.compare(userData.password, validUser.password);
     if (!passwordMatch) throw new UnauthorizedException('Senha inválida');
 
-    return this.authService.sign({ email: user.email, id: user.id });
+    return { token: this.authService.sign({}) };
   }
 }
