@@ -52,7 +52,7 @@ export class CompanyUseCases {
     return await this.databaseService.updateCompany(company);
   }
 
-  async deleteCompany(deleteCompanyDto: DeleteCompanyDto): Promise<void> {
+  async deleteCompany(deleteCompanyDto: DeleteCompanyDto): Promise<ResponseCompany> {
     const company = this.companyFactoryService.deleteCompany(deleteCompanyDto);
 
     const validCompany = await this.databaseService.findCompany({
@@ -60,6 +60,6 @@ export class CompanyUseCases {
     });
     if (!validCompany) throw new NotFoundException('Empresa não existente');
 
-    await this.databaseService.deleteCompany(company);
+    return await this.databaseService.deleteCompany(company);
   }
 }
