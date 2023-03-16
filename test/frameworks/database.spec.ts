@@ -227,6 +227,7 @@ describe('Database Service', () => {
   it('Should an array of locals', async () => {
     const getCompanyLocalsDto = generateGetCompanyLocalsDto();
     getCompanyLocalsDto.companyId = 1;
+    getCompanyLocalsDto.userId = 1;
 
     const result = await databaseService.getCompanyLocals(getCompanyLocalsDto);
 

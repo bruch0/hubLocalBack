@@ -76,6 +76,7 @@ export const generateFindLocalDto = (): FindLocalDto => {
 export const generateGetCompanyLocalsDto = (): GetCompanyLocalsDto => {
   return {
     companyId: faker.datatype.number(),
+    userId: faker.datatype.number(),
   };
 };
 
