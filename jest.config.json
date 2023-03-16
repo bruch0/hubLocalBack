@@ -12,7 +12,10 @@
     "src/app.module.ts",
     "src/main.ts",
     "src/core/data-service",
-    "src/core/entities"
+    "src/core/entities",
+    "src/use-cases/user/user.use-cases.module.ts",
+    "src/use-cases/company/company.use-cases.module.ts",
+    "src/use-cases/local/local.use-cases.module.ts"
   ],
   "moduleNameMapper": {
     "@controllers": "<rootDir>/src/controllers/index",
