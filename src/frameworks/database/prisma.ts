@@ -9,10 +9,11 @@ import {
   CreateUserDto,
   DeleteCompanyDto,
   DeleteLocalDto,
+  FindUserDto,
   GetCompanyDto,
   GetCompanyLocalsDto,
+  GetLocalDto,
   GetUserCompaniesDto,
-  LoginUserDto,
   UpdateCompanyDto,
   UpdateLocalDto,
 } from '@dtos';
@@ -37,7 +38,7 @@ export class DatabaseService implements GenericDatabase {
     await this.prismaService.user.create({ data: createUserDto });
   };
 
-  findUser = async (loginUserDto: Omit<LoginUserDto, 'password' | 'name'>) =>
+  findUser = async (loginUserDto: FindUserDto) =>
     await this.prismaService.user.findFirst({ where: loginUserDto });
 
   getUserCompanies = async (getUserCompaniesDto: GetUserCompaniesDto) =>
@@ -92,19 +93,19 @@ export class DatabaseService implements GenericDatabase {
       where: { ...getCompanyLocalsDto, deleted: false },
     });
 
-  createLocal = async (createLocalDto: CreateLocalDto) => {
-    const localData: Omit<CreateLocalDto, 'companyId'> = createLocalDto;
-
-    return await this.prismaService.local.create({
-      data: {
-        ...localData,
-        company: { connect: { id: createLocalDto.companyId } },
-      },
+  getLocal = async (getLocalDto: GetLocalDto) =>
+    await this.prismaService.local.findFirst({
+      where: { ...getLocalDto, deleted: false },
     });
-  };
+
+  createLocal = async (createLocalDto: CreateLocalDto) =>
+    await this.prismaService.local.create({
+      data: createLocalDto,
+    });
 
   updateLocal = async (updateLocalDto: UpdateLocalDto) => {
-    const localData: Omit<UpdateLocalDto, 'localId'> = updateLocalDto;
+    const localData: UpdateLocalDto = { ...updateLocalDto };
+    delete localData.localId;
 
     return await this.prismaService.local.update({
       data: localData,

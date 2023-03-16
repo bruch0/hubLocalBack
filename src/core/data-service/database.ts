@@ -7,6 +7,7 @@ import {
   DeleteLocalDto,
   GetCompanyDto,
   GetCompanyLocalsDto,
+  GetLocalDto,
   GetUserCompaniesDto,
   LoginUserDto,
   UpdateCompanyDto,
@@ -32,6 +33,7 @@ export class GenericDatabase {
   getCompanyLocals: (
     getCompanyLocalsDto: GetCompanyLocalsDto,
   ) => Promise<Local[]>;
+  getLocal: (getLocalDto: GetLocalDto) => Promise<Local>;
   createLocal: (createLocalDto: CreateLocalDto) => Promise<Local>;
   updateLocal: (updateLocalDto: UpdateLocalDto) => Promise<Local>;
   deleteLocal: (deleteLocalDto: DeleteLocalDto) => Promise<Local>;
