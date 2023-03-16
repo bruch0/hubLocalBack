@@ -32,6 +32,10 @@ export class CreateCompanyDto {
 }
 
 export class UpdateCompanyDto {
+  @IsNumber()
+  @IsNotEmpty()
+  id: number;
+
   @IsString()
   @IsNotEmpty()
   name: string;
@@ -45,16 +49,12 @@ export class UpdateCompanyDto {
   @IsNotEmpty()
   @Matches(/^\d{2}\.\d{3}\.\d{3}\/\d{4}\-\d{2}$/)
   taxId: string;
-
-  @IsNumber()
-  @IsNotEmpty()
-  companyId: number;
 }
 
 export class DeleteCompanyDto {
   @IsNumber()
   @IsNotEmpty()
-  companyId: number;
+  id: number;
 }
 
 export class GetUserCompaniesDto {

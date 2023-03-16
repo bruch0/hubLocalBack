@@ -40,6 +40,10 @@ export class CreateLocalDto {
 }
 
 export class UpdateLocalDto {
+  @IsNumber()
+  @IsNotEmpty()
+  id: number;
+
   @IsString()
   @IsNotEmpty()
   name: string;
@@ -66,16 +70,12 @@ export class UpdateLocalDto {
 
   @IsNumber()
   number?: number;
-
-  @IsNumber()
-  @IsNotEmpty()
-  localId: number;
 }
 
 export class DeleteLocalDto {
   @IsNumber()
   @IsNotEmpty()
-  localId: number;
+  id: number;
 }
 
 export class GetCompanyLocalsDto {
