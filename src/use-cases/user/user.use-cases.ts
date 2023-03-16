@@ -43,6 +43,6 @@ export class UserUseCases {
     const passwordMatch = this.encryptService.compare(userData.password, validUser.password);
     if (!passwordMatch) throw new UnauthorizedException('Senha inválida');
 
-    return { token: this.authService.sign({}) };
+    return { token: this.authService.sign({ userId: validUser.id }) };
   }
 }
