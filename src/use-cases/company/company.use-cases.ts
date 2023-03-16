@@ -4,7 +4,7 @@ import { DatabaseService } from '@database/prisma';
 
 import { ResponseCompany } from '@entities';
 
-import { CreateCompanyDto, UpdateCompanyDto, DeleteCompanyDto } from '@dtos';
+import { CreateCompanyDto, UpdateCompanyDto, DeleteCompanyDto, GetUserCompaniesDto } from '@dtos';
 
 import { CompanyFactoryService } from './company.use-cases.factory';
 
@@ -15,8 +15,12 @@ export class CompanyUseCases {
     private companyFactoryService: CompanyFactoryService,
   ) {}
 
-  async createCompany(companyData: CreateCompanyDto): Promise<ResponseCompany> {
-    const newCompany = this.companyFactoryService.createCompany(companyData);
+  async getUserCompanies(getUserCompaniesDto: GetUserCompaniesDto): Promise<ResponseCompany[]> {
+    return this.databaseService.getUserCompanies(getUserCompaniesDto);
+  }
+
+  async createCompany(createCompanyDto: CreateCompanyDto): Promise<ResponseCompany> {
+    const newCompany = this.companyFactoryService.createCompany(createCompanyDto);
 
     const validUser = await this.databaseService.findUser({
       id: newCompany.userId,
@@ -31,8 +35,8 @@ export class CompanyUseCases {
     return await this.databaseService.createCompany(newCompany);
   }
 
-  async updateCompany(companyData: UpdateCompanyDto): Promise<ResponseCompany> {
-    const company = this.companyFactoryService.updateCompany(companyData);
+  async updateCompany(updateCompanyDto: UpdateCompanyDto): Promise<ResponseCompany> {
+    const company = this.companyFactoryService.updateCompany(updateCompanyDto);
 
     const validCompany = await this.databaseService.findCompany({
       id: company.id,
@@ -48,8 +52,8 @@ export class CompanyUseCases {
     return await this.databaseService.updateCompany(company);
   }
 
-  async deleteCompany(companyData: DeleteCompanyDto): Promise<void> {
-    const company = this.companyFactoryService.deleteCompany(companyData);
+  async deleteCompany(deleteCompanyDto: DeleteCompanyDto): Promise<void> {
+    const company = this.companyFactoryService.deleteCompany(deleteCompanyDto);
 
     const validCompany = await this.databaseService.findCompany({
       id: company.id,

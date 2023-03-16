@@ -4,7 +4,7 @@ import { DatabaseService } from '@database/prisma';
 
 import { ResponseLocal } from '@entities';
 
-import { CreateLocalDto, DeleteLocalDto, UpdateLocalDto } from '@dtos';
+import { CreateLocalDto, DeleteLocalDto, GetCompanyLocalsDto, UpdateLocalDto } from '@dtos';
 
 import { LocalFactoryService } from './local.use-cases.factory';
 
@@ -15,8 +15,12 @@ export class LocalUseCases {
     private localFactoryService: LocalFactoryService,
   ) {}
 
-  async createLocal(localData: CreateLocalDto): Promise<ResponseLocal> {
-    const newLocal = this.localFactoryService.createLocal(localData);
+  async getCompanyLocals(getCompanyLocalsDto: GetCompanyLocalsDto): Promise<ResponseLocal[]> {
+    return this.databaseService.getCompanyLocals(getCompanyLocalsDto);
+  }
+
+  async createLocal(createLocalDto: CreateLocalDto): Promise<ResponseLocal> {
+    const newLocal = this.localFactoryService.createLocal(createLocalDto);
 
     const validCompany = await this.databaseService.findCompany({
       id: newLocal.companyId,
@@ -26,8 +30,8 @@ export class LocalUseCases {
     return await this.databaseService.createLocal(newLocal);
   }
 
-  async updateLocal(localData: UpdateLocalDto): Promise<ResponseLocal> {
-    const local = this.localFactoryService.updateLocal(localData);
+  async updateLocal(updateLocalDto: UpdateLocalDto): Promise<ResponseLocal> {
+    const local = this.localFactoryService.updateLocal(updateLocalDto);
 
     const validLocal = await this.databaseService.findLocal({
       id: local.id,
@@ -37,8 +41,8 @@ export class LocalUseCases {
     return await this.databaseService.updateLocal(local);
   }
 
-  async deleteLocal(localData: DeleteLocalDto): Promise<void> {
-    const local = this.localFactoryService.deleteLocal(localData);
+  async deleteLocal(deleteLocalDto: DeleteLocalDto): Promise<void> {
+    const local = this.localFactoryService.deleteLocal(deleteLocalDto);
 
     const validLocal = await this.databaseService.findLocal({
       id: local.id,
