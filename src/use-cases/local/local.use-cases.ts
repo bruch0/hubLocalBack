@@ -18,7 +18,7 @@ export class LocalUseCases {
   async createLocal(localData: CreateLocalDto): Promise<ResponseLocal> {
     const newLocal = this.localFactoryService.createLocal(localData);
 
-    const validCompany = await this.databaseService.getCompany({
+    const validCompany = await this.databaseService.findCompany({
       id: newLocal.companyId,
     });
     if (!validCompany) throw new NotFoundException('Empresa não existe');
@@ -29,7 +29,7 @@ export class LocalUseCases {
   async updateLocal(localData: UpdateLocalDto): Promise<ResponseLocal> {
     const local = this.localFactoryService.updateLocal(localData);
 
-    const validLocal = await this.databaseService.getLocal({
+    const validLocal = await this.databaseService.findLocal({
       id: local.id,
     });
 
@@ -44,7 +44,7 @@ export class LocalUseCases {
   async deleteLocal(localData: DeleteLocalDto): Promise<void> {
     const local = this.localFactoryService.deleteLocal(localData);
 
-    const validLocal = await this.databaseService.getLocal({
+    const validLocal = await this.databaseService.findLocal({
       id: local.id,
     });
 

@@ -23,7 +23,7 @@ export class CompanyUseCases {
     });
     if (!validUser) throw new NotFoundException('Usuário não existe');
 
-    const company = await this.databaseService.getCompany({
+    const company = await this.databaseService.findCompany({
       taxId: newCompany.taxId,
     });
 
@@ -35,13 +35,13 @@ export class CompanyUseCases {
   async updateCompany(companyData: UpdateCompanyDto): Promise<ResponseCompany> {
     const company = this.companyFactoryService.updateCompany(companyData);
 
-    const validCompany = await this.databaseService.getCompany({
+    const validCompany = await this.databaseService.findCompany({
       id: company.id,
     });
 
     if (!validCompany) throw new NotFoundException('Empresa não existente');
 
-    const invalidTaxId = await this.databaseService.getCompany({
+    const invalidTaxId = await this.databaseService.findCompany({
       taxId: company.taxId,
     });
 
@@ -57,7 +57,7 @@ export class CompanyUseCases {
   async deleteCompany(companyData: DeleteCompanyDto): Promise<void> {
     const company = this.companyFactoryService.deleteCompany(companyData);
 
-    const validCompany = await this.databaseService.getCompany({
+    const validCompany = await this.databaseService.findCompany({
       id: company.id,
     });
 
