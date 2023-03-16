@@ -41,7 +41,7 @@ export class LocalUseCases {
     return await this.databaseService.updateLocal(local);
   }
 
-  async deleteLocal(deleteLocalDto: DeleteLocalDto): Promise<void> {
+  async deleteLocal(deleteLocalDto: DeleteLocalDto): Promise<ResponseLocal> {
     const local = this.localFactoryService.deleteLocal(deleteLocalDto);
 
     const validLocal = await this.databaseService.findLocal({
@@ -49,6 +49,6 @@ export class LocalUseCases {
     });
     if (!validLocal) throw new NotFoundException('Local não existente');
 
-    await this.databaseService.deleteLocal(local);
+    return await this.databaseService.deleteLocal(local);
   }
 }
