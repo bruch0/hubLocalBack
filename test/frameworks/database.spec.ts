@@ -3,6 +3,7 @@ import { DatabaseService } from '@database/prisma';
 import {
   generateCreateCompanyDto,
   generateCreateUserDto,
+  generateDeleteCompanyDto,
   generateFindCompanyDto,
   generateFindUserDto,
   generateUpdateCompanyDto,
@@ -106,5 +107,26 @@ describe('Database Service', () => {
 
     delete updateCompanyDto.id;
     expect(result).toEqual(updateCompanyDto);
+  });
+
+  it('Should throw an error when the companyId is invalid', async () => {
+    const deleteCompanyDto = generateDeleteCompanyDto();
+
+    expect(async () => {
+      await databaseService.deleteCompany(deleteCompanyDto);
+    }).rejects.toThrow();
+  });
+
+  it('Should return the deleted company when companyId id valid', async () => {
+    const deleteCompanyDto = generateDeleteCompanyDto();
+    deleteCompanyDto.id = 1;
+
+    const result = await databaseService.deleteCompany(deleteCompanyDto);
+
+    expect(result).toEqual({
+      name: expect.any(String),
+      siteUrl: expect.any(String),
+      taxId: expect.any(String),
+    });
   });
 });
