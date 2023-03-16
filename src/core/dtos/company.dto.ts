@@ -1,6 +1,6 @@
 import { IsString, IsNotEmpty, IsNumber, IsUrl, Matches } from 'class-validator';
 
-export class GetCompanyDto {
+export class FindCompanyDto {
   @IsNumber()
   @IsNotEmpty()
   id?: number;

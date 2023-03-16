@@ -1,6 +1,6 @@
 import { IsString, IsNotEmpty, IsNumber } from 'class-validator';
 
-export class GetLocalDto {
+export class FindLocalDto {
   @IsNumber()
   @IsNotEmpty()
   id: number;
