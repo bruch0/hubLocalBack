@@ -2,13 +2,17 @@ import { TestingModule, Test } from '@nestjs/testing';
 import * as faker from 'faker';
 
 import { DatabaseService } from '@database/prisma';
-import { UserUseCases } from '@user/user.use-cases';
+
 import { AuthService } from '@auth/jwt';
+
 import { EncryptService } from '@encrypt/bcrypt';
-import { UserFactoryService } from '@user/user.use-cases.factory';
+
 import { CreateUserDto, LoginUserDto } from '@dtos';
 
-describe('Encrypt Service', () => {
+import { UserUseCases } from '@user/user.use-cases';
+import { UserFactoryService } from '@user/user.use-cases.factory';
+
+describe('User Usecases', () => {
   let app: TestingModule;
   let userUseCase: UserUseCases;
 
