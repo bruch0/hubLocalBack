@@ -24,18 +24,18 @@ export class UserUseCases {
     private userFactoryService: UserFactoryService,
   ) {}
 
-  async createUser(userData: CreateUserDto): Promise<ResponseUser> {
-    const emailIsTaken = await this.databaseService.findUser({ email: userData.email });
+  async createUser(createUserDto: CreateUserDto): Promise<ResponseUser> {
+    const emailIsTaken = await this.databaseService.findUser({ email: createUserDto.email });
     if (emailIsTaken) throw new ConflictException('Email já cadastrado');
 
-    const newUser = this.userFactoryService.createUser(userData);
+    const newUser = this.userFactoryService.createUser(createUserDto);
     newUser.password = this.encryptService.encrypt(newUser.password);
 
     return await this.databaseService.createUser(newUser);
   }
 
-  async loginUser(userLoginData: LoginUserDto): Promise<{ token: string }> {
-    const userData = this.userFactoryService.loginUser(userLoginData);
+  async loginUser(LoginUserDto: LoginUserDto): Promise<{ token: string }> {
+    const userData = this.userFactoryService.loginUser(LoginUserDto);
 
     const validUser = await this.databaseService.findUser({ email: userData.email });
     if (!validUser) throw new NotFoundException('Email não registrado');
