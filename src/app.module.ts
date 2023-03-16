@@ -1,10 +1,6 @@
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 
-import {
-  UserController,
-  CompanyController,
-  LocalController,
-} from '@controllers';
+import { UserController, CompanyController, LocalController } from '@controllers';
 
 import { AuthMiddleware } from '@middlewares';
 

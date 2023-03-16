@@ -1,8 +1,4 @@
-import {
-  Injectable,
-  NestMiddleware,
-  UnauthorizedException,
-} from '@nestjs/common';
+import { Injectable, NestMiddleware, UnauthorizedException } from '@nestjs/common';
 import { Request, Response, NextFunction } from 'express';
 
 import { AuthService } from '@auth/jwt';
@@ -19,8 +15,7 @@ export class AuthMiddleware implements NestMiddleware {
 
     const validToken = this.authService.verify(token);
 
-    if (!validToken)
-      throw new UnauthorizedException('Você precisa estar logado');
+    if (!validToken) throw new UnauthorizedException('Você precisa estar logado');
 
     next();
   }

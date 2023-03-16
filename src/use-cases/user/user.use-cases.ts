@@ -39,10 +39,7 @@ export class UserUseCases {
 
     if (!user) throw new NotFoundException('Email não registrado');
 
-    const passwordMatch = this.encryptService.compare(
-      userData.password,
-      user.password,
-    );
+    const passwordMatch = this.encryptService.compare(userData.password, user.password);
 
     if (!passwordMatch) throw new UnauthorizedException('Senha inválida');
 

@@ -15,27 +15,29 @@ import {
 } from '@dtos';
 
 export class GenericDatabase {
-  createUser: (createUserDto: CreateUserDto) => Promise<void>;
   findUser: (loginUserDto: LoginUserDto) => Promise<User>;
-  getUserCompanies: (
-    getUserCompaniesDto: GetUserCompaniesDto,
-  ) => Promise<ResponseCompany[]>;
-  getCompany: (getCompanyDto: GetCompanyDto) => Promise<Company>;
-  createCompany: (
-    createCompanyDto: CreateCompanyDto,
-  ) => Promise<ResponseCompany>;
-  updateCompany: (
-    updateCompanyDto: UpdateCompanyDto,
-  ) => Promise<ResponseCompany>;
-  deleteCompany: (
-    deleteCompanyDto: DeleteCompanyDto,
-  ) => Promise<ResponseCompany>;
-  getCompanyLocals: (
-    getCompanyLocalsDto: GetCompanyLocalsDto,
-  ) => Promise<Local[]>;
-  getLocal: (getLocalDto: GetLocalDto) => Promise<Local>;
+
+  createUser: (createUserDto: CreateUserDto) => Promise<void>;
+
+  getUserCompanies: (getUserCompaniesDto: GetUserCompaniesDto) => Promise<ResponseCompany[]>;
+
+  findCompany: (getCompanyDto: GetCompanyDto) => Promise<Company>;
+
+  createCompany: (createCompanyDto: CreateCompanyDto) => Promise<ResponseCompany>;
+
+  updateCompany: (updateCompanyDto: UpdateCompanyDto) => Promise<ResponseCompany>;
+
+  deleteCompany: (deleteCompanyDto: DeleteCompanyDto) => Promise<ResponseCompany>;
+
+  getCompanyLocals: (getCompanyLocalsDto: GetCompanyLocalsDto) => Promise<Local[]>;
+
+  findLocal: (getLocalDto: GetLocalDto) => Promise<Local>;
+
   createLocal: (createLocalDto: CreateLocalDto) => Promise<Local>;
+
   updateLocal: (updateLocalDto: UpdateLocalDto) => Promise<Local>;
+
   deleteLocal: (deleteLocalDto: DeleteLocalDto) => Promise<Local>;
+
   rawQuery: (query: string) => any;
 }

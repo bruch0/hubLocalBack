@@ -1,10 +1,4 @@
-import {
-  IsString,
-  IsNotEmpty,
-  IsNumber,
-  IsUrl,
-  Matches,
-} from 'class-validator';
+import { IsString, IsNotEmpty, IsNumber, IsUrl, Matches } from 'class-validator';
 
 export class GetCompanyDto {
   @IsNumber()

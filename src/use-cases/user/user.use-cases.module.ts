@@ -8,13 +8,7 @@ import { UserFactoryService } from './user.use-cases.factory';
 import { UserUseCases } from './user.use-cases';
 
 @Module({
-  providers: [
-    DatabaseService,
-    EncryptService,
-    AuthService,
-    UserFactoryService,
-    UserUseCases,
-  ],
+  providers: [DatabaseService, EncryptService, AuthService, UserFactoryService, UserUseCases],
   exports: [UserFactoryService, UserUseCases],
 })
 export class UserUseCasesModule {}
