@@ -89,9 +89,11 @@ export class DatabaseService implements GenericDatabase {
       },
     });
 
-  getCompanyLocals = async (getCompanyLocalsDto: GetCompanyLocalsDto) =>
-    await this.prismaService.local.findMany({
-      where: { ...getCompanyLocalsDto, deleted: false },
+  getCompanyLocals = async (getCompanyLocalsDto: GetCompanyLocalsDto) => {
+    const { companyId, userId } = getCompanyLocalsDto;
+
+    return await this.prismaService.local.findMany({
+      where: { company: { id: companyId, userId: userId }, deleted: false },
       select: {
         id: true,
         name: true,
@@ -103,7 +105,7 @@ export class DatabaseService implements GenericDatabase {
         number: true,
       },
     });
-
+  };
   findLocal = async (findLocalDto: FindLocalDto) =>
     await this.prismaService.local.findFirst({
       where: { ...findLocalDto, deleted: false },
