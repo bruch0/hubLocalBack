@@ -198,4 +198,37 @@ describe('Company Usecases', () => {
     expect(mockedCompanyFactoryService.updateCompany).toHaveBeenCalled();
     expect(result).toEqual(databaseResponse);
   });
+
+  it('Should throw an error if provided companyId returns no company', async () => {
+    jest.spyOn(mockedDatabaseService, 'findCompany').mockImplementationOnce(() => null);
+
+    const deleteCompanyDto: DeleteCompanyDto = {
+      id: faker.datatype.number(),
+    };
+
+    expect(async () => {
+      await companyUseCases.deleteCompany(deleteCompanyDto);
+    }).rejects.toThrow('Empresa não existente');
+  });
+
+  it('Should call the database and factory methods and return the database response', async () => {
+    const databaseResponse = { id: faker.datatype.number() };
+
+    jest.spyOn(mockedDatabaseService, 'findCompany').mockImplementationOnce(() => true);
+    jest
+      .spyOn(mockedDatabaseService, 'deleteCompany')
+      .mockImplementationOnce(() => databaseResponse);
+    jest.spyOn(mockedCompanyFactoryService, 'deleteCompany');
+
+    const deleteCompanyDto: DeleteCompanyDto = {
+      id: faker.datatype.number(),
+    };
+
+    const result = await companyUseCases.deleteCompany(deleteCompanyDto);
+
+    expect(mockedDatabaseService.findCompany).toHaveBeenCalled();
+    expect(mockedDatabaseService.deleteCompany).toHaveBeenCalled();
+    expect(mockedCompanyFactoryService.deleteCompany).toHaveBeenCalled();
+    expect(result).toEqual(databaseResponse);
+  });
 });
