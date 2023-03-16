@@ -19,7 +19,7 @@ export class LocalController {
   constructor(private localUseCases: LocalUseCases) {}
 
   @Get('/:companyId')
-  getuserCompanies(
+  getCompanyLocals(
     @Param('companyId', ParseIntPipe) companyId: number,
     @Headers('authorization') authorization: string,
   ) {

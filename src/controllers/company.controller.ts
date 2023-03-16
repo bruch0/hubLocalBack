@@ -9,7 +9,7 @@ export class CompanyController {
   constructor(private companyUseCases: CompanyUseCases) {}
 
   @Get('')
-  getuserCompanies(@Headers('authorization') authorization: string) {
+  getUserCompanies(@Headers('authorization') authorization: string) {
     const { userId } = JSON.parse(authorization);
 
     return this.companyUseCases.getUserCompanies({ userId });
