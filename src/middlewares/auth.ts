@@ -17,6 +17,8 @@ export class AuthMiddleware implements NestMiddleware {
     const validToken = this.authService.verify(token);
     if (!validToken) throw new UnauthorizedException('Você precisa estar logado');
 
+    request.headers.authorization = JSON.stringify(validToken);
+
     next();
   }
 }
