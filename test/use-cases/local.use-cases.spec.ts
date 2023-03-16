@@ -20,7 +20,9 @@ describe('Local Usecases', () => {
         companyId: faker.datatype.number(),
       };
     },
-    deleteLocal: (data) => data,
+    deleteLocal: (data) => {
+      return { ...data, companyId: faker.datatype.number() };
+    },
   };
 
   const mockedDatabaseService = {
@@ -123,6 +125,7 @@ describe('Local Usecases', () => {
       city: faker.address.city(),
       neighborhood: faker.address.county(),
       streetAddress: faker.address.streetAddress(),
+      userId: faker.datatype.number(),
     };
 
     expect(async () => {
@@ -130,12 +133,10 @@ describe('Local Usecases', () => {
     }).rejects.toThrow('Local não existente');
   });
 
-  it('Should call the database and factory methods and return the database response', async () => {
-    const databaseResponse = { id: faker.datatype.number() };
+  it('Should throw an error if provided localId does not belong to my user', async () => {
+    const databaseResponse = { company: { userId: faker.datatype.number() } };
 
-    jest.spyOn(mockedDatabaseService, 'findLocal').mockImplementationOnce(() => true);
-    jest.spyOn(mockedDatabaseService, 'updateLocal').mockImplementationOnce(() => databaseResponse);
-    jest.spyOn(mockedLocalFactoryService, 'updateLocal');
+    jest.spyOn(mockedDatabaseService, 'findLocal').mockImplementationOnce(() => databaseResponse);
 
     const updateLocalDto: UpdateLocalDto = {
       id: faker.datatype.number(),
@@ -145,6 +146,33 @@ describe('Local Usecases', () => {
       city: faker.address.city(),
       neighborhood: faker.address.county(),
       streetAddress: faker.address.streetAddress(),
+      userId: faker.datatype.number(),
+    };
+
+    expect(async () => {
+      await localUseCases.updateLocal(updateLocalDto);
+    }).rejects.toThrow('Você não tem autorização para essa ação');
+  });
+
+  it('Should call the database and factory methods and return the database response', async () => {
+    const databaseResponse = { company: { userId: 1 } };
+    const factoryResponse = { userId: 1 };
+
+    jest.spyOn(mockedDatabaseService, 'findLocal').mockImplementationOnce(() => databaseResponse);
+    jest.spyOn(mockedDatabaseService, 'updateLocal').mockImplementationOnce(() => databaseResponse);
+    jest.spyOn(mockedLocalFactoryService, 'updateLocal').mockImplementationOnce((data) => {
+      return { ...data, ...factoryResponse, companyId: 1 };
+    });
+
+    const updateLocalDto: UpdateLocalDto = {
+      id: faker.datatype.number(),
+      name: faker.name.findName(),
+      zipcode: faker.helpers.regexpStyleStringParse('[00001-99999]-[001-999]'),
+      state: faker.address.state(),
+      city: faker.address.city(),
+      neighborhood: faker.address.county(),
+      streetAddress: faker.address.streetAddress(),
+      userId: faker.datatype.number(),
     };
 
     const result = await localUseCases.updateLocal(updateLocalDto);
@@ -160,6 +188,7 @@ describe('Local Usecases', () => {
 
     const deleteLocalDto: DeleteLocalDto = {
       id: faker.datatype.number(),
+      userId: faker.datatype.number(),
     };
 
     expect(async () => {
@@ -167,15 +196,37 @@ describe('Local Usecases', () => {
     }).rejects.toThrow('Local não existente');
   });
 
-  it('Should call the database and factory methods and return the database response', async () => {
-    const databaseResponse = { id: faker.datatype.number() };
+  it('Should throw an error if provided localId does not belong to my user', async () => {
+    const databaseResponse = { company: { userId: faker.datatype.number() } };
 
-    jest.spyOn(mockedDatabaseService, 'findLocal').mockImplementationOnce(() => true);
-    jest.spyOn(mockedDatabaseService, 'deleteLocal').mockImplementationOnce(() => databaseResponse);
-    jest.spyOn(mockedLocalFactoryService, 'deleteLocal');
+    jest.spyOn(mockedDatabaseService, 'findLocal').mockImplementationOnce(() => databaseResponse);
 
     const deleteLocalDto: DeleteLocalDto = {
       id: faker.datatype.number(),
+      userId: faker.datatype.number(),
+    };
+
+    expect(async () => {
+      await localUseCases.deleteLocal(deleteLocalDto);
+    }).rejects.toThrow('Você não tem autorização para essa ação');
+  });
+
+  it('Should call the database and factory methods and return the database response', async () => {
+    const databaseResponse = { company: { userId: faker.datatype.number() } };
+
+    jest.spyOn(mockedDatabaseService, 'findLocal').mockImplementationOnce(() => databaseResponse);
+    jest.spyOn(mockedDatabaseService, 'deleteLocal').mockImplementationOnce(() => databaseResponse);
+    jest.spyOn(mockedLocalFactoryService, 'deleteLocal').mockImplementationOnce((data) => {
+      return {
+        ...data,
+        companyId: databaseResponse.company.userId,
+        userId: databaseResponse.company.userId,
+      };
+    });
+
+    const deleteLocalDto: DeleteLocalDto = {
+      id: faker.datatype.number(),
+      userId: faker.datatype.number(),
     };
 
     const result = await localUseCases.deleteLocal(deleteLocalDto);

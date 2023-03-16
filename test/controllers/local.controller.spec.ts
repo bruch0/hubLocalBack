@@ -79,9 +79,13 @@ describe('Controller', () => {
         city: faker.address.city(),
         neighborhood: faker.address.county(),
         streetAddress: faker.address.streetAddress(),
+        userId: faker.datatype.number(),
       };
 
-      await controller.updateLocal(updateLocalDto);
+      await controller.updateLocal(
+        updateLocalDto,
+        JSON.stringify({ userId: updateLocalDto.userId }),
+      );
 
       expect(mockedLocalUseCases.updateLocal).toHaveBeenCalledWith(updateLocalDto);
     });
@@ -92,9 +96,13 @@ describe('Controller', () => {
 
       const deleteLocalDto: DeleteLocalDto = {
         id: faker.datatype.number(),
+        userId: 0,
       };
 
-      await controller.deleteLocal(deleteLocalDto);
+      await controller.deleteLocal(
+        deleteLocalDto,
+        JSON.stringify({ userId: deleteLocalDto.userId }),
+      );
 
       expect(mockedLocalUseCases.deleteLocal).toHaveBeenCalledWith(deleteLocalDto);
     });

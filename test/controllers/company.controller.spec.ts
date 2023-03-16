@@ -57,7 +57,10 @@ describe('Controller', () => {
         userId: faker.datatype.number(),
       };
 
-      await controller.createCompany(createCompanyDto);
+      await controller.createCompany(
+        createCompanyDto,
+        JSON.stringify({ userId: createCompanyDto.userId }),
+      );
 
       expect(mockedCompanyUseCases.createCompany).toHaveBeenCalledWith(createCompanyDto);
     });
@@ -73,9 +76,13 @@ describe('Controller', () => {
         taxId: faker.helpers.regexpStyleStringParse(
           '[01-99].[001-999].[001-999]/[0001-9999]-[01-99]',
         ),
+        userId: faker.datatype.number(),
       };
 
-      await controller.updateCompany(updateCompanyDto);
+      await controller.updateCompany(
+        updateCompanyDto,
+        JSON.stringify({ userId: updateCompanyDto.userId }),
+      );
 
       expect(mockedCompanyUseCases.updateCompany).toHaveBeenCalledWith(updateCompanyDto);
     });
@@ -86,9 +93,13 @@ describe('Controller', () => {
 
       const deleteCompanyDto: DeleteCompanyDto = {
         id: faker.datatype.number(),
+        userId: faker.datatype.number(),
       };
 
-      await controller.deleteCompany(deleteCompanyDto);
+      await controller.deleteCompany(
+        deleteCompanyDto,
+        JSON.stringify({ userId: deleteCompanyDto.userId }),
+      );
 
       expect(mockedCompanyUseCases.deleteCompany).toHaveBeenCalledWith(deleteCompanyDto);
     });

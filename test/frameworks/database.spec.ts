@@ -105,13 +105,15 @@ describe('Database Service', () => {
     }).rejects.toThrow();
   });
 
-  it('Should return the updated company when companyId id valid', async () => {
+  it('Should return the updated company when companyId is valid', async () => {
     const updateCompanyDto = generateUpdateCompanyDto();
     updateCompanyDto.id = 1;
 
     const result = await databaseService.updateCompany(updateCompanyDto);
 
     delete updateCompanyDto.id;
+    delete updateCompanyDto.userId;
+
     expect(result).toEqual(updateCompanyDto);
   });
 
@@ -177,7 +179,12 @@ describe('Database Service', () => {
 
     const result = await databaseService.findLocal({ id: 1 });
 
-    expect(result).toEqual({ ...createLocalDto, id: expect.any(Number), deleted: false });
+    delete createLocalDto.companyId;
+
+    expect(result).toEqual({
+      ...createLocalDto,
+      company: { userId: expect.any(Number) },
+    });
   });
 
   it('Should throw an error when the companyId is invalid', async () => {
@@ -195,7 +202,11 @@ describe('Database Service', () => {
     const result = await databaseService.createLocal(createLocalDto);
 
     delete createLocalDto.companyId;
-    expect(result).toEqual({ ...createLocalDto, number: expect.any(Number) });
+    expect(result).toEqual({
+      ...createLocalDto,
+      number: expect.any(Number),
+      company: { userId: expect.any(Number) },
+    });
   });
 
   it('Should throw an error when the localId is invalid', async () => {
@@ -206,14 +217,19 @@ describe('Database Service', () => {
     }).rejects.toThrow();
   });
 
-  it('Should return the updated local when localId id valid', async () => {
+  it('Should return the updated local when localId is valid', async () => {
     const updateLocalDto = generateUpdateLocalDto();
     updateLocalDto.id = 1;
 
     const result = await databaseService.updateLocal(updateLocalDto);
 
     delete updateLocalDto.id;
-    expect(result).toEqual({ ...updateLocalDto, number: expect.any(Number) });
+    delete updateLocalDto.userId;
+
+    expect(result).toEqual({
+      ...updateLocalDto,
+      number: expect.any(Number),
+    });
   });
 
   it('Should an empty array of locals', async () => {

@@ -58,12 +58,14 @@ export const generateUpdateCompanyDto = (): UpdateCompanyDto => {
     name: faker.company.companyName(),
     siteUrl: faker.internet.url(),
     taxId: faker.helpers.regexpStyleStringParse('[01-99].[001-999].[001-999]/[0001-9999]-[01-99]'),
+    userId: faker.datatype.number(),
   };
 };
 
 export const generateDeleteCompanyDto = (): DeleteCompanyDto => {
   return {
     id: faker.datatype.number(),
+    userId: faker.datatype.number(),
   };
 };
 
@@ -103,11 +105,13 @@ export const generateUpdateLocalDto = (): UpdateLocalDto => {
     neighborhood: faker.address.county(),
     streetAddress: faker.address.streetAddress(),
     number: faker.datatype.number(),
+    userId: faker.datatype.number(),
   };
 };
 
 export const generateDeleteLocalDto = (): DeleteLocalDto => {
   return {
     id: faker.datatype.number(),
+    userId: faker.datatype.number(),
   };
 };

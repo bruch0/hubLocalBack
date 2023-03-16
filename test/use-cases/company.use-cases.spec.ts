@@ -136,6 +136,7 @@ describe('Company Usecases', () => {
       taxId: faker.helpers.regexpStyleStringParse(
         '[01-99].[001-999].[001-999]/[0001-9999]-[01-99]',
       ),
+      userId: faker.datatype.number(),
     };
 
     expect(async () => {
@@ -144,7 +145,9 @@ describe('Company Usecases', () => {
   });
 
   it('Should throw an error if provided taxId is already registered', async () => {
-    jest.spyOn(mockedDatabaseService, 'findCompany').mockImplementationOnce(() => true);
+    const databaseResponse = { userId: faker.datatype.number() };
+
+    jest.spyOn(mockedDatabaseService, 'findCompany').mockImplementationOnce(() => databaseResponse);
     jest.spyOn(mockedDatabaseService, 'findCompany').mockImplementationOnce(() => true);
 
     const updateCompanyDto: UpdateCompanyDto = {
@@ -154,6 +157,7 @@ describe('Company Usecases', () => {
       taxId: faker.helpers.regexpStyleStringParse(
         '[01-99].[001-999].[001-999]/[0001-9999]-[01-99]',
       ),
+      userId: databaseResponse.userId,
     };
 
     expect(async () => {
@@ -161,10 +165,34 @@ describe('Company Usecases', () => {
     }).rejects.toThrow('CNPJ já cadastrado');
   });
 
-  it('Should call the database and factory methods and return the database response', async () => {
-    const databaseResponse = { id: faker.datatype.number() };
+  it('Should throw an error if provided companyId does not belong to my user', async () => {
+    const databaseResponse = { userId: faker.datatype.number() };
 
-    jest.spyOn(mockedDatabaseService, 'findCompany').mockImplementationOnce(() => true);
+    jest.spyOn(mockedDatabaseService, 'findCompany').mockImplementationOnce(() => databaseResponse);
+    jest
+      .spyOn(mockedDatabaseService, 'deleteCompany')
+      .mockImplementationOnce(() => databaseResponse);
+    jest.spyOn(mockedCompanyFactoryService, 'deleteCompany');
+
+    const updateCompanyDto: UpdateCompanyDto = {
+      id: faker.datatype.number(),
+      name: faker.name.findName(),
+      siteUrl: faker.internet.url(),
+      taxId: faker.helpers.regexpStyleStringParse(
+        '[01-99].[001-999].[001-999]/[0001-9999]-[01-99]',
+      ),
+      userId: faker.datatype.number(),
+    };
+
+    expect(async () => {
+      await companyUseCases.updateCompany(updateCompanyDto);
+    }).rejects.toThrow('Você não tem autorização para essa ação');
+  });
+
+  it('Should call the database and factory methods and return the database response', async () => {
+    const databaseResponse = { userId: faker.datatype.number() };
+
+    jest.spyOn(mockedDatabaseService, 'findCompany').mockImplementationOnce(() => databaseResponse);
     jest.spyOn(mockedDatabaseService, 'findCompany').mockImplementationOnce(() => false);
     jest
       .spyOn(mockedDatabaseService, 'updateCompany')
@@ -178,6 +206,7 @@ describe('Company Usecases', () => {
       taxId: faker.helpers.regexpStyleStringParse(
         '[01-99].[001-999].[001-999]/[0001-9999]-[01-99]',
       ),
+      userId: databaseResponse.userId,
     };
 
     const result = await companyUseCases.updateCompany(updateCompanyDto);
@@ -193,6 +222,7 @@ describe('Company Usecases', () => {
 
     const deleteCompanyDto: DeleteCompanyDto = {
       id: faker.datatype.number(),
+      userId: faker.datatype.number(),
     };
 
     expect(async () => {
@@ -200,10 +230,10 @@ describe('Company Usecases', () => {
     }).rejects.toThrow('Empresa não existente');
   });
 
-  it('Should call the database and factory methods and return the database response', async () => {
-    const databaseResponse = { id: faker.datatype.number() };
+  it('Should throw an error if provided companyId does not belong to my user', async () => {
+    const databaseResponse = { userId: faker.datatype.number() };
 
-    jest.spyOn(mockedDatabaseService, 'findCompany').mockImplementationOnce(() => true);
+    jest.spyOn(mockedDatabaseService, 'findCompany').mockImplementationOnce(() => databaseResponse);
     jest
       .spyOn(mockedDatabaseService, 'deleteCompany')
       .mockImplementationOnce(() => databaseResponse);
@@ -211,6 +241,26 @@ describe('Company Usecases', () => {
 
     const deleteCompanyDto: DeleteCompanyDto = {
       id: faker.datatype.number(),
+      userId: faker.datatype.number(),
+    };
+
+    expect(async () => {
+      await companyUseCases.deleteCompany(deleteCompanyDto);
+    }).rejects.toThrow('Você não tem autorização para essa ação');
+  });
+
+  it('Should call the database and factory methods and return the database response', async () => {
+    const databaseResponse = { userId: faker.datatype.number() };
+
+    jest.spyOn(mockedDatabaseService, 'findCompany').mockImplementationOnce(() => databaseResponse);
+    jest
+      .spyOn(mockedDatabaseService, 'deleteCompany')
+      .mockImplementationOnce(() => databaseResponse);
+    jest.spyOn(mockedCompanyFactoryService, 'deleteCompany');
+
+    const deleteCompanyDto: DeleteCompanyDto = {
+      id: faker.datatype.number(),
+      userId: databaseResponse.userId,
     };
 
     const result = await companyUseCases.deleteCompany(deleteCompanyDto);
@@ -218,6 +268,6 @@ describe('Company Usecases', () => {
     expect(mockedDatabaseService.findCompany).toHaveBeenCalled();
     expect(mockedDatabaseService.deleteCompany).toHaveBeenCalled();
     expect(mockedCompanyFactoryService.deleteCompany).toHaveBeenCalled();
-    expect(result).toEqual(databaseResponse);
+    expect(result).toEqual({ userId: expect.any(Number) });
   });
 });
