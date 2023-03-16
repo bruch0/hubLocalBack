@@ -11,6 +11,8 @@ import {
   DeleteLocalDto,
   FindLocalDto,
   UpdateLocalDto,
+  GetUserCompaniesDto,
+  GetCompanyLocalsDto,
 } from '@dtos';
 
 export const generateFindUserDto = (): FindUserDto => {
@@ -32,6 +34,12 @@ export const generateFindCompanyDto = (): FindCompanyDto => {
   return {
     id: faker.datatype.number(),
     taxId: faker.helpers.regexpStyleStringParse('[01-99].[001-999].[001-999]/[0001-9999]-[01-99]'),
+  };
+};
+
+export const generateGetUserCompaniesDto = (): GetUserCompaniesDto => {
+  return {
+    userId: faker.datatype.number(),
   };
 };
 
@@ -62,6 +70,12 @@ export const generateDeleteCompanyDto = (): DeleteCompanyDto => {
 export const generateFindLocalDto = (): FindLocalDto => {
   return {
     id: faker.datatype.number(),
+  };
+};
+
+export const generateGetCompanyLocalsDto = (): GetCompanyLocalsDto => {
+  return {
+    companyId: faker.datatype.number(),
   };
 };
 

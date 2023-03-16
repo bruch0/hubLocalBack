@@ -9,6 +9,8 @@ import {
   generateFindCompanyDto,
   generateFindLocalDto,
   generateFindUserDto,
+  generateGetCompanyLocalsDto,
+  generateGetUserCompaniesDto,
   generateUpdateCompanyDto,
   generateUpdateLocalDto,
 } from './database.utils';
@@ -113,6 +115,32 @@ describe('Database Service', () => {
     expect(result).toEqual(updateCompanyDto);
   });
 
+  it('Should an empty array of companies', async () => {
+    const getUserCompaniesDto = generateGetUserCompaniesDto();
+
+    const result = await databaseService.getUserCompanies(getUserCompaniesDto);
+
+    expect(result).toEqual([]);
+  });
+
+  it('Should an array of companies', async () => {
+    const getUserCompaniesDto = generateGetUserCompaniesDto();
+    getUserCompaniesDto.userId = 1;
+
+    const result = await databaseService.getUserCompanies(getUserCompaniesDto);
+
+    expect(result).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          id: expect.any(Number),
+          name: expect.any(String),
+          taxId: expect.any(String),
+          siteUrl: expect.any(String),
+        }),
+      ]),
+    );
+  });
+
   it('Should throw an error when the companyId is invalid', async () => {
     const deleteCompanyDto = generateDeleteCompanyDto();
 
@@ -186,6 +214,36 @@ describe('Database Service', () => {
 
     delete updateLocalDto.id;
     expect(result).toEqual({ ...updateLocalDto, number: expect.any(Number) });
+  });
+
+  it('Should an empty array of locals', async () => {
+    const getCompanyLocalsDto = generateGetCompanyLocalsDto();
+
+    const result = await databaseService.getCompanyLocals(getCompanyLocalsDto);
+
+    expect(result).toEqual([]);
+  });
+
+  it('Should an array of locals', async () => {
+    const getCompanyLocalsDto = generateGetCompanyLocalsDto();
+    getCompanyLocalsDto.companyId = 1;
+
+    const result = await databaseService.getCompanyLocals(getCompanyLocalsDto);
+
+    expect(result).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          id: expect.any(Number),
+          name: expect.any(String),
+          zipcode: expect.any(String),
+          state: expect.any(String),
+          city: expect.any(String),
+          neighborhood: expect.any(String),
+          streetAddress: expect.any(String),
+          number: expect.any(Number),
+        }),
+      ]),
+    );
   });
 
   it('Should throw an error when the localId is invalid', async () => {

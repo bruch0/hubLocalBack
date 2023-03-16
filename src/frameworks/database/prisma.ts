@@ -45,6 +45,7 @@ export class DatabaseService implements GenericDatabase {
     await this.prismaService.company.findMany({
       where: { ...getUserCompaniesDto, deleted: false },
       select: {
+        id: true,
         name: true,
         taxId: true,
         siteUrl: true,
@@ -91,6 +92,16 @@ export class DatabaseService implements GenericDatabase {
   getCompanyLocals = async (getCompanyLocalsDto: GetCompanyLocalsDto) =>
     await this.prismaService.local.findMany({
       where: { ...getCompanyLocalsDto, deleted: false },
+      select: {
+        id: true,
+        name: true,
+        zipcode: true,
+        state: true,
+        city: true,
+        neighborhood: true,
+        streetAddress: true,
+        number: true,
+      },
     });
 
   findLocal = async (findLocalDto: FindLocalDto) =>
