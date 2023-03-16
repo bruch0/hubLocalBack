@@ -8,6 +8,7 @@ type LocalDto = {
   streetAddress?: string;
   companyId?: number;
   number?: number;
+  userId?: number;
 };
 
 export class Local {
@@ -21,6 +22,7 @@ export class Local {
     this.streetAddress = localDto.streetAddress;
     this.companyId = localDto.companyId;
     this.number = localDto.number;
+    this.userId = localDto.userId;
   }
 
   id: number;
@@ -33,6 +35,7 @@ export class Local {
   companyId: number;
   deleted: boolean;
   number?: number;
+  userId: number;
 }
 
 export class ResponseLocal {
