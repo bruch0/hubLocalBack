@@ -136,4 +136,66 @@ describe('Company Usecases', () => {
     expect(mockedCompanyFactoryService.createCompany).toHaveBeenCalled();
     expect(result).toEqual(databaseResponse);
   });
+
+  it('Should throw an error if provided companyId returns no company', async () => {
+    jest.spyOn(mockedDatabaseService, 'findCompany').mockImplementationOnce(() => null);
+
+    const updateCompanyDto: UpdateCompanyDto = {
+      id: faker.datatype.number(),
+      name: faker.name.findName(),
+      siteUrl: faker.internet.url(),
+      taxId: faker.helpers.regexpStyleStringParse(
+        '[01-99].[001-999].[001-999]/[0001-9999]-[01-99]',
+      ),
+    };
+
+    expect(async () => {
+      await companyUseCases.updateCompany(updateCompanyDto);
+    }).rejects.toThrow('Empresa não existente');
+  });
+
+  it('Should throw an error if provided taxId is already registered', async () => {
+    jest.spyOn(mockedDatabaseService, 'findCompany').mockImplementationOnce(() => true);
+    jest.spyOn(mockedDatabaseService, 'findCompany').mockImplementationOnce(() => true);
+
+    const updateCompanyDto: UpdateCompanyDto = {
+      id: faker.datatype.number(),
+      name: faker.name.findName(),
+      siteUrl: faker.internet.url(),
+      taxId: faker.helpers.regexpStyleStringParse(
+        '[01-99].[001-999].[001-999]/[0001-9999]-[01-99]',
+      ),
+    };
+
+    expect(async () => {
+      await companyUseCases.updateCompany(updateCompanyDto);
+    }).rejects.toThrow('CNPJ já cadastrado');
+  });
+
+  it('Should call the database and factory methods and return the database response', async () => {
+    const databaseResponse = { id: faker.datatype.number() };
+
+    jest.spyOn(mockedDatabaseService, 'findCompany').mockImplementationOnce(() => true);
+    jest.spyOn(mockedDatabaseService, 'findCompany').mockImplementationOnce(() => false);
+    jest
+      .spyOn(mockedDatabaseService, 'updateCompany')
+      .mockImplementationOnce(() => databaseResponse);
+    jest.spyOn(mockedCompanyFactoryService, 'updateCompany');
+
+    const updateCompanyDto: UpdateCompanyDto = {
+      id: faker.datatype.number(),
+      name: faker.name.findName(),
+      siteUrl: faker.internet.url(),
+      taxId: faker.helpers.regexpStyleStringParse(
+        '[01-99].[001-999].[001-999]/[0001-9999]-[01-99]',
+      ),
+    };
+
+    const result = await companyUseCases.updateCompany(updateCompanyDto);
+
+    expect(mockedDatabaseService.findCompany).toHaveBeenCalled();
+    expect(mockedDatabaseService.updateCompany).toHaveBeenCalled();
+    expect(mockedCompanyFactoryService.updateCompany).toHaveBeenCalled();
+    expect(result).toEqual(databaseResponse);
+  });
 });
