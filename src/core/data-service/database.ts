@@ -31,7 +31,18 @@ export class GenericDatabase {
 
   getCompanyLocals: (getCompanyLocalsDto: GetCompanyLocalsDto) => Promise<ResponseLocal[]>;
 
-  findLocal: (findLocalDto: FindCompanyDto) => Promise<Local>;
+  findLocal: (findLocalDto: FindLocalDto) => Promise<{
+    number: number;
+    name: string;
+    zipcode: string;
+    state: string;
+    city: string;
+    neighborhood: string;
+    streetAddress: string;
+    company: {
+      userId: number;
+    };
+  }>;
 
   createLocal: (createLocalDto: CreateLocalDto) => Promise<ResponseLocal>;
 
