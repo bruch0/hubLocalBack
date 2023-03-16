@@ -7,6 +7,10 @@ import {
   FindUserDto,
   UpdateCompanyDto,
   DeleteCompanyDto,
+  CreateLocalDto,
+  DeleteLocalDto,
+  FindLocalDto,
+  UpdateLocalDto,
 } from '@dtos';
 
 export const generateFindUserDto = (): FindUserDto => {
@@ -50,6 +54,44 @@ export const generateUpdateCompanyDto = (): UpdateCompanyDto => {
 };
 
 export const generateDeleteCompanyDto = (): DeleteCompanyDto => {
+  return {
+    id: faker.datatype.number(),
+  };
+};
+
+export const generateFindLocalDto = (): FindLocalDto => {
+  return {
+    id: faker.datatype.number(),
+  };
+};
+
+export const generateCreateLocalDto = (): CreateLocalDto => {
+  return {
+    name: faker.company.companyName(),
+    zipcode: faker.helpers.regexpStyleStringParse('[00001-99999]-[001-999]'),
+    state: faker.address.state(),
+    city: faker.address.city(),
+    neighborhood: faker.address.county(),
+    streetAddress: faker.address.streetAddress(),
+    number: faker.datatype.number(),
+    companyId: faker.datatype.number(),
+  };
+};
+
+export const generateUpdateLocalDto = (): UpdateLocalDto => {
+  return {
+    id: faker.datatype.number(),
+    name: faker.company.companyName(),
+    zipcode: faker.helpers.regexpStyleStringParse('[00001-99999]-[001-999]'),
+    state: faker.address.state(),
+    city: faker.address.city(),
+    neighborhood: faker.address.county(),
+    streetAddress: faker.address.streetAddress(),
+    number: faker.datatype.number(),
+  };
+};
+
+export const generateDeleteLocalDto = (): DeleteLocalDto => {
   return {
     id: faker.datatype.number(),
   };
