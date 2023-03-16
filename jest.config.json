@@ -8,7 +8,12 @@
   "testRegex": ".*\\.spec\\.ts$",
   "coverageDirectory": "../coverage",
   "collectCoverageFrom": ["src/**/*.ts"],
-  "coveragePathIgnorePatterns": ["src/app.module.ts", "src/main.ts", "src/core/data-service"],
+  "coveragePathIgnorePatterns": [
+    "src/app.module.ts",
+    "src/main.ts",
+    "src/core/data-service",
+    "src/core/entities"
+  ],
   "moduleNameMapper": {
     "@controllers": "<rootDir>/src/controllers/index",
     "@middlewares": "<rootDir>/src/middlewares/index",

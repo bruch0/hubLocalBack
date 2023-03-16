@@ -1,5 +1,5 @@
 # env variables
-.env
+.env.development
 
 # compiled output
 /dist
