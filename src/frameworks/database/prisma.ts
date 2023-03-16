@@ -65,7 +65,9 @@ export class DatabaseService implements GenericDatabase {
 
   updateCompany = async (updateCompanyDto: UpdateCompanyDto) => {
     const companyUpdateData: UpdateCompanyDto = { ...updateCompanyDto };
+
     delete companyUpdateData.id;
+    delete companyUpdateData.userId;
 
     return await this.prismaService.company.update({
       data: companyUpdateData,

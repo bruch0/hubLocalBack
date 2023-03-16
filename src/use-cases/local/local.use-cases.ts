@@ -39,7 +39,8 @@ export class LocalUseCases {
 
     if (!validLocal) throw new NotFoundException('Local não existente');
 
-    if (validLocal.company.userId !== local.userId) throw new ForbiddenException();
+    if (validLocal.company.userId !== local.userId)
+      throw new ForbiddenException('Você não tem autorização para essa ação');
 
     return await this.databaseService.updateLocal(local);
   }
@@ -52,7 +53,8 @@ export class LocalUseCases {
     });
     if (!validLocal) throw new NotFoundException('Local não existente');
 
-    if (validLocal.company.userId !== local.userId) throw new ForbiddenException();
+    if (validLocal.company.userId !== local.userId)
+      throw new ForbiddenException('Você não tem autorização para essa ação');
 
     return await this.databaseService.deleteLocal(local);
   }

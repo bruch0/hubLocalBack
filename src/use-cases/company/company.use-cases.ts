@@ -49,7 +49,8 @@ export class CompanyUseCases {
     });
     if (!validCompany) throw new NotFoundException('Empresa não existente');
 
-    if (validCompany.userId !== company.userId) throw new ForbiddenException();
+    if (validCompany.userId !== company.userId)
+      throw new ForbiddenException('Você não tem autorização para essa ação');
 
     const taxIdIsTaken = await this.databaseService.findCompany({
       taxId: company.taxId,
@@ -68,7 +69,8 @@ export class CompanyUseCases {
     });
     if (!validCompany) throw new NotFoundException('Empresa não existente');
 
-    if (validCompany.userId !== company.userId) throw new ForbiddenException();
+    if (validCompany.userId !== company.userId)
+      throw new ForbiddenException('Você não tem autorização para essa ação');
 
     return await this.databaseService.deleteCompany(company);
   }
