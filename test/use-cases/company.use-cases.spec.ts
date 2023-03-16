@@ -3,18 +3,7 @@ import * as faker from 'faker';
 
 import { DatabaseService } from '@database/prisma';
 
-import { AuthService } from '@auth/jwt';
-
-import { EncryptService } from '@encrypt/bcrypt';
-
-import {
-  CreateCompanyDto,
-  CreateUserDto,
-  DeleteCompanyDto,
-  GetUserCompaniesDto,
-  LoginUserDto,
-  UpdateCompanyDto,
-} from '@dtos';
+import { CreateCompanyDto, DeleteCompanyDto, GetUserCompaniesDto, UpdateCompanyDto } from '@dtos';
 
 import { CompanyUseCases } from '@company/company.use-cases';
 import { CompanyFactoryService } from '@company/company.use-cases.factory';
