@@ -3,7 +3,7 @@ import * as RandExp from 'randexp';
 
 import { AuthService } from '@auth/jwt';
 
-describe('Encrypt Service', () => {
+describe('Auth Service', () => {
   const authService = new AuthService();
 
   it('Should return an auth token in the expected pattern', () => {
