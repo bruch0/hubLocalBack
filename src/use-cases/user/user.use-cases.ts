@@ -34,7 +34,7 @@ export class UserUseCases {
     return await this.databaseService.createUser(newUser);
   }
 
-  async loginUser(LoginUserDto: LoginUserDto): Promise<{ token: string }> {
+  async loginUser(LoginUserDto: LoginUserDto): Promise<{ token: string; name: string }> {
     const userData = this.userFactoryService.loginUser(LoginUserDto);
 
     const validUser = await this.databaseService.findUser({ email: userData.email });
@@ -43,6 +43,6 @@ export class UserUseCases {
     const passwordMatch = this.encryptService.compare(userData.password, validUser.password);
     if (!passwordMatch) throw new UnauthorizedException('Senha inválida');
 
-    return { token: this.authService.sign({ userId: validUser.id }) };
+    return { token: this.authService.sign({ userId: validUser.id }), name: validUser.name };
   }
 }
