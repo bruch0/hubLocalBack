@@ -11,7 +11,7 @@ import {
 } from '@nestjs/common';
 import { ApiResponse, ApiHeader } from '@nestjs/swagger';
 
-import { CreateLocalDto, DeleteLocalDto, UpdateLocalDto } from '@dtos';
+import { CreateLocalDto, DeleteLocalDto, GetCompanyLocalsDto, UpdateLocalDto } from '@dtos';
 
 import { LocalUseCases } from '@local/local.use-cases';
 
@@ -24,12 +24,13 @@ export class LocalController {
   @ApiResponse({ status: 200, description: 'Success' })
   @Get('/:companyId')
   getCompanyLocals(
+    @Body() getCompanyLocalsDto: GetCompanyLocalsDto,
     @Param('companyId', ParseIntPipe) companyId: number,
     @Headers('authorization') authorization: string,
   ) {
     const { userId } = JSON.parse(authorization);
 
-    return this.localUseCases.getCompanyLocals({ companyId, userId });
+    return this.localUseCases.getCompanyLocals({ ...getCompanyLocalsDto, companyId, userId });
   }
 
   @ApiHeader({ name: 'authorization', required: true, description: 'Bearer token' })
@@ -38,8 +39,8 @@ export class LocalController {
   @ApiResponse({ status: 401, description: 'Unauthorized' })
   @ApiResponse({ status: 201, description: 'Created' })
   @Post()
-  createLocal(@Body() localData: Omit<CreateLocalDto, 'userId'>) {
-    return this.localUseCases.createLocal(localData);
+  createLocal(@Body() createLocalDto: Omit<CreateLocalDto, 'userId'>) {
+    return this.localUseCases.createLocal(createLocalDto);
   }
 
   @ApiHeader({ name: 'authorization', required: true, description: 'Bearer token' })
@@ -48,10 +49,13 @@ export class LocalController {
   @ApiResponse({ status: 401, description: 'Unauthorized' })
   @ApiResponse({ status: 200, description: 'Success' })
   @Put()
-  updateLocal(@Body() localData: UpdateLocalDto, @Headers('authorization') authorization: string) {
+  updateLocal(
+    @Body() updateLocalDto: UpdateLocalDto,
+    @Headers('authorization') authorization: string,
+  ) {
     const { userId } = JSON.parse(authorization);
 
-    return this.localUseCases.updateLocal({ ...localData, userId });
+    return this.localUseCases.updateLocal({ ...updateLocalDto, userId });
   }
 
   @ApiResponse({ status: 404, description: 'Not Found' })
@@ -59,11 +63,11 @@ export class LocalController {
   @ApiResponse({ status: 200, description: 'Success' })
   @Delete()
   deleteLocal(
-    @Body() localData: Omit<DeleteLocalDto, 'userId'>,
+    @Body() deleteLocalDto: Omit<DeleteLocalDto, 'userId'>,
     @Headers('authorization') authorization: string,
   ) {
     const { userId } = JSON.parse(authorization);
 
-    return this.localUseCases.deleteLocal({ ...localData, userId });
+    return this.localUseCases.deleteLocal({ ...deleteLocalDto, userId });
   }
 }

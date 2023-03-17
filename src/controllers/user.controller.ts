@@ -12,8 +12,8 @@ export class UserController {
   @ApiResponse({ status: 409, description: 'Conflict' })
   @ApiResponse({ status: 201, description: 'Created' })
   @Post('/register')
-  createUser(@Body() userData: CreateUserDto) {
-    return this.userUseCases.createUser(userData);
+  createUser(@Body() createUserDto: CreateUserDto) {
+    return this.userUseCases.createUser(createUserDto);
   }
 
   @ApiResponse({ status: 404, description: 'Not Found' })
@@ -21,7 +21,7 @@ export class UserController {
   @ApiResponse({ status: 201, description: 'Created' })
   @Post('/login')
   @HttpCode(200)
-  loginUser(@Body() userData: LoginUserDto) {
-    return this.userUseCases.loginUser(userData);
+  loginUser(@Body() loginUserDto: LoginUserDto) {
+    return this.userUseCases.loginUser(loginUserDto);
   }
 }

@@ -1,7 +1,7 @@
 import { Controller, Post, Body, Put, Delete, Get, Headers } from '@nestjs/common';
 import { ApiResponse, ApiHeader } from '@nestjs/swagger';
 
-import { CreateCompanyDto, UpdateCompanyDto, DeleteCompanyDto } from '@dtos';
+import { CreateCompanyDto, UpdateCompanyDto, DeleteCompanyDto, GetUserCompaniesDto } from '@dtos';
 
 import { CompanyUseCases } from '@company/company.use-cases';
 
@@ -13,10 +13,13 @@ export class CompanyController {
   @ApiResponse({ status: 401, description: 'Unauthorized' })
   @ApiResponse({ status: 200, description: 'Success' })
   @Get('')
-  getUserCompanies(@Headers('authorization') authorization: string) {
+  getUserCompanies(
+    @Body() getUserCompaniesDto: GetUserCompaniesDto,
+    @Headers('authorization') authorization: string,
+  ) {
     const { userId } = JSON.parse(authorization);
 
-    return this.companyUseCases.getUserCompanies({ userId });
+    return this.companyUseCases.getUserCompanies({ ...getUserCompaniesDto, userId });
   }
 
   @ApiHeader({ name: 'authorization', required: true, description: 'Bearer token' })
@@ -26,12 +29,12 @@ export class CompanyController {
   @ApiResponse({ status: 201, description: 'Created' })
   @Post()
   createCompany(
-    @Body() companyData: Omit<CreateCompanyDto, 'userId'>,
+    @Body() createCompanyDto: Omit<CreateCompanyDto, 'userId'>,
     @Headers('authorization') authorization: string,
   ) {
     const { userId } = JSON.parse(authorization);
 
-    return this.companyUseCases.createCompany({ ...companyData, userId });
+    return this.companyUseCases.createCompany({ ...createCompanyDto, userId });
   }
 
   @ApiHeader({ name: 'authorization', required: true, description: 'Bearer token' })
@@ -41,11 +44,11 @@ export class CompanyController {
   @ApiResponse({ status: 200, description: 'Success' })
   @Put()
   updateCompany(
-    @Body() companyData: Omit<UpdateCompanyDto, 'userId'>,
+    @Body() UpdateCompanyDto: Omit<UpdateCompanyDto, 'userId'>,
     @Headers('authorization') authorization: string,
   ) {
     const { userId } = JSON.parse(authorization);
-    return this.companyUseCases.updateCompany({ ...companyData, userId });
+    return this.companyUseCases.updateCompany({ ...UpdateCompanyDto, userId });
   }
 
   @ApiResponse({ status: 404, description: 'Not Found' })
@@ -53,11 +56,11 @@ export class CompanyController {
   @ApiResponse({ status: 200, description: 'Success' })
   @Delete()
   deleteCompany(
-    @Body() companyData: Omit<DeleteCompanyDto, 'userId'>,
+    @Body() DeleteCompanyDto: Omit<DeleteCompanyDto, 'userId'>,
     @Headers('authorization') authorization: string,
   ) {
     const { userId } = JSON.parse(authorization);
 
-    return this.companyUseCases.deleteCompany({ ...companyData, userId });
+    return this.companyUseCases.deleteCompany({ ...DeleteCompanyDto, userId });
   }
 }
