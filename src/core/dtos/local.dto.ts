@@ -115,4 +115,14 @@ export class GetCompanyLocalsDto {
   @IsNumber()
   @IsNotEmpty()
   userId: number;
+
+  @ApiProperty()
+  @IsNumber()
+  @IsNotEmpty()
+  itemsPerPage: number;
+
+  @ApiProperty()
+  @IsNumber()
+  @IsNotEmpty()
+  pageNumber: number;
 }

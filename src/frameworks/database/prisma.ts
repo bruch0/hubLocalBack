@@ -43,13 +43,15 @@ export class DatabaseService implements GenericDatabase {
 
   getUserCompanies = async (getUserCompaniesDto: GetUserCompaniesDto) =>
     await this.prismaService.company.findMany({
-      where: { ...getUserCompaniesDto, deleted: false },
+      where: { userId: getUserCompaniesDto.userId, deleted: false },
       select: {
         id: true,
         name: true,
         taxId: true,
         siteUrl: true,
       },
+      take: getUserCompaniesDto.itemsPerPage,
+      skip: (getUserCompaniesDto.pageNumber - 1) * getUserCompaniesDto.itemsPerPage,
     });
 
   findCompany = async (findCompanyDto: FindCompanyDto) =>
@@ -92,7 +94,7 @@ export class DatabaseService implements GenericDatabase {
     });
 
   getCompanyLocals = async (getCompanyLocalsDto: GetCompanyLocalsDto) => {
-    const { companyId, userId } = getCompanyLocalsDto;
+    const { companyId, userId, itemsPerPage, pageNumber } = getCompanyLocalsDto;
 
     return await this.prismaService.local.findMany({
       where: { company: { id: companyId, userId: userId }, deleted: false },
@@ -106,6 +108,8 @@ export class DatabaseService implements GenericDatabase {
         streetAddress: true,
         number: true,
       },
+      take: getCompanyLocalsDto.itemsPerPage,
+      skip: (getCompanyLocalsDto.pageNumber - 1) * getCompanyLocalsDto.itemsPerPage,
     });
   };
 
@@ -141,6 +145,7 @@ export class DatabaseService implements GenericDatabase {
 
   updateLocal = async (updateLocalDto: UpdateLocalDto) => {
     const localUpdateData: UpdateLocalDto = { ...updateLocalDto };
+
     delete localUpdateData.id;
     delete localUpdateData.userId;
 
