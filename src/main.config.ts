@@ -5,6 +5,7 @@ import * as dotenv from 'dotenv';
 export function mainConfig(app: INestApplication) {
   dotenv.config({ path: process.env.ENV_FILE_PATH });
 
+  app.enableCors();
   app.useGlobalPipes(new ValidationPipe());
 
   const config = new DocumentBuilder()
