@@ -1,4 +1,4 @@
-import { Controller, Post, Body, Put } from '@nestjs/common';
+import { Controller, Post, Body, Put, HttpCode } from '@nestjs/common';
 import { ApiResponse } from '@nestjs/swagger';
 
 import { CreateUserDto, LoginUserDto } from '@dtos';
@@ -20,6 +20,7 @@ export class UserController {
   @ApiResponse({ status: 401, description: 'Unauthorized' })
   @ApiResponse({ status: 201, description: 'Created' })
   @Post('/login')
+  @HttpCode(200)
   loginUser(@Body() userData: LoginUserDto) {
     return this.userUseCases.loginUser(userData);
   }
