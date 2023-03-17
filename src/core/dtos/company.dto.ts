@@ -13,15 +13,18 @@ export class FindCompanyDto {
 }
 
 export class CreateCompanyDto {
+  @ApiProperty()
   @IsString()
   @IsNotEmpty()
   name: string;
 
+  @ApiProperty()
   @IsString()
   @IsNotEmpty()
   @IsUrl()
   siteUrl: string;
 
+  @ApiProperty()
   @IsString()
   @IsNotEmpty()
   @Matches(/^\d{2}\.\d{3}\.\d{3}\/\d{4}\-\d{2}$/)
@@ -30,41 +33,26 @@ export class CreateCompanyDto {
   @IsNumber()
   @IsNotEmpty()
   userId: number;
-}
-
-export class CreateCompanyRequestBodyDto {
-  @ApiProperty()
-  @IsString()
-  @IsNotEmpty()
-  name: string;
-
-  @ApiProperty()
-  @IsString()
-  @IsNotEmpty()
-  @IsUrl()
-  siteUrl: string;
-
-  @ApiProperty()
-  @IsString()
-  @IsNotEmpty()
-  @Matches(/^\d{2}\.\d{3}\.\d{3}\/\d{4}\-\d{2}$/)
-  taxId: string;
 }
 
 export class UpdateCompanyDto {
+  @ApiProperty()
   @IsNumber()
   @IsNotEmpty()
   id: number;
 
+  @ApiProperty()
   @IsString()
   @IsNotEmpty()
   name: string;
 
+  @ApiProperty()
   @IsString()
   @IsNotEmpty()
   @IsUrl()
   siteUrl: string;
 
+  @ApiProperty()
   @IsString()
   @IsNotEmpty()
   @Matches(/^\d{2}\.\d{3}\.\d{3}\/\d{4}\-\d{2}$/)
@@ -73,33 +61,10 @@ export class UpdateCompanyDto {
   @IsNumber()
   @IsNotEmpty()
   userId: number;
-}
-
-export class UpdateCompanyRequestBodyDto {
-  @ApiProperty()
-  @IsNumber()
-  @IsNotEmpty()
-  id: number;
-
-  @ApiProperty()
-  @IsString()
-  @IsNotEmpty()
-  name: string;
-
-  @ApiProperty()
-  @IsString()
-  @IsNotEmpty()
-  @IsUrl()
-  siteUrl: string;
-
-  @ApiProperty()
-  @IsString()
-  @IsNotEmpty()
-  @Matches(/^\d{2}\.\d{3}\.\d{3}\/\d{4}\-\d{2}$/)
-  taxId: string;
 }
 
 export class DeleteCompanyDto {
+  @ApiProperty()
   @IsNumber()
   @IsNotEmpty()
   id: number;
@@ -107,13 +72,6 @@ export class DeleteCompanyDto {
   @IsNumber()
   @IsNotEmpty()
   userId: number;
-}
-
-export class DeleteCompanyRequestBodyDto {
-  @ApiProperty()
-  @IsNumber()
-  @IsNotEmpty()
-  id: number;
 }
 
 export class GetUserCompaniesDto {

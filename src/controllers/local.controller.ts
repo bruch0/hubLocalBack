@@ -11,7 +11,7 @@ import {
 } from '@nestjs/common';
 import { ApiResponse, ApiHeader } from '@nestjs/swagger';
 
-import { CreateLocalDto, DeleteLocalRequestBodyDto, UpdateLocalRequestBodyDto } from '@dtos';
+import { CreateLocalDto, DeleteLocalDto, UpdateLocalDto } from '@dtos';
 
 import { LocalUseCases } from '@local/local.use-cases';
 
@@ -38,7 +38,7 @@ export class LocalController {
   @ApiResponse({ status: 401, description: 'Unauthorized' })
   @ApiResponse({ status: 201, description: 'Created' })
   @Post()
-  createLocal(@Body() localData: CreateLocalDto) {
+  createLocal(@Body() localData: Omit<CreateLocalDto, 'userId'>) {
     return this.localUseCases.createLocal(localData);
   }
 
@@ -48,10 +48,7 @@ export class LocalController {
   @ApiResponse({ status: 401, description: 'Unauthorized' })
   @ApiResponse({ status: 200, description: 'Success' })
   @Put()
-  updateLocal(
-    @Body() localData: UpdateLocalRequestBodyDto,
-    @Headers('authorization') authorization: string,
-  ) {
+  updateLocal(@Body() localData: UpdateLocalDto, @Headers('authorization') authorization: string) {
     const { userId } = JSON.parse(authorization);
 
     return this.localUseCases.updateLocal({ ...localData, userId });
@@ -62,7 +59,7 @@ export class LocalController {
   @ApiResponse({ status: 200, description: 'Success' })
   @Delete()
   deleteLocal(
-    @Body() localData: DeleteLocalRequestBodyDto,
+    @Body() localData: Omit<DeleteLocalDto, 'userId'>,
     @Headers('authorization') authorization: string,
   ) {
     const { userId } = JSON.parse(authorization);

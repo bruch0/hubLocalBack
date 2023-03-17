@@ -1,11 +1,7 @@
 import { Controller, Post, Body, Put, Delete, Get, Headers } from '@nestjs/common';
 import { ApiResponse, ApiHeader } from '@nestjs/swagger';
 
-import {
-  CreateCompanyRequestBodyDto,
-  UpdateCompanyRequestBodyDto,
-  DeleteCompanyRequestBodyDto,
-} from '@dtos';
+import { CreateCompanyDto, UpdateCompanyDto, DeleteCompanyDto } from '@dtos';
 
 import { CompanyUseCases } from '@company/company.use-cases';
 
@@ -30,7 +26,7 @@ export class CompanyController {
   @ApiResponse({ status: 201, description: 'Created' })
   @Post()
   createCompany(
-    @Body() companyData: CreateCompanyRequestBodyDto,
+    @Body() companyData: Omit<CreateCompanyDto, 'userId'>,
     @Headers('authorization') authorization: string,
   ) {
     const { userId } = JSON.parse(authorization);
@@ -45,7 +41,7 @@ export class CompanyController {
   @ApiResponse({ status: 200, description: 'Success' })
   @Put()
   updateCompany(
-    @Body() companyData: UpdateCompanyRequestBodyDto,
+    @Body() companyData: Omit<UpdateCompanyDto, 'userId'>,
     @Headers('authorization') authorization: string,
   ) {
     const { userId } = JSON.parse(authorization);
@@ -57,7 +53,7 @@ export class CompanyController {
   @ApiResponse({ status: 200, description: 'Success' })
   @Delete()
   deleteCompany(
-    @Body() companyData: DeleteCompanyRequestBodyDto,
+    @Body() companyData: Omit<DeleteCompanyDto, 'userId'>,
     @Headers('authorization') authorization: string,
   ) {
     const { userId } = JSON.parse(authorization);

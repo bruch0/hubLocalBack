@@ -50,43 +50,6 @@ export class CreateLocalDto {
 }
 
 export class UpdateLocalDto {
-  @IsNumber()
-  @IsNotEmpty()
-  id: number;
-
-  @IsString()
-  @IsNotEmpty()
-  name: string;
-
-  @IsString()
-  @IsNotEmpty()
-  zipcode: string;
-
-  @IsString()
-  @IsNotEmpty()
-  state: string;
-
-  @IsString()
-  @IsNotEmpty()
-  city: string;
-
-  @IsString()
-  @IsNotEmpty()
-  neighborhood: string;
-
-  @IsString()
-  @IsNotEmpty()
-  streetAddress: string;
-
-  @IsNumber()
-  number?: number;
-
-  @IsNumber()
-  @IsNotEmpty()
-  userId: number;
-}
-
-export class UpdateLocalRequestBodyDto {
   @ApiProperty()
   @IsNumber()
   @IsNotEmpty()
@@ -125,6 +88,10 @@ export class UpdateLocalRequestBodyDto {
   @ApiPropertyOptional()
   @IsNumber()
   number?: number;
+
+  @IsNumber()
+  @IsNotEmpty()
+  userId: number;
 }
 
 export class DeleteLocalDto {
@@ -136,13 +103,6 @@ export class DeleteLocalDto {
   @IsNumber()
   @IsNotEmpty()
   userId: number;
-}
-
-export class DeleteLocalRequestBodyDto {
-  @ApiProperty()
-  @IsNumber()
-  @IsNotEmpty()
-  id: number;
 }
 
 export class GetCompanyLocalsDto {
