@@ -38,9 +38,13 @@ describe('Controller', () => {
       const getCompanyLocalsDto = {
         companyId: faker.datatype.number(),
         userId: faker.datatype.number(),
+        itemsPerPage: 10,
+        pageNumber: 1,
       };
 
       await controller.getCompanyLocals(
+        10,
+        1,
         getCompanyLocalsDto.companyId,
         JSON.stringify(getCompanyLocalsDto),
       );

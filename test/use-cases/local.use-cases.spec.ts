@@ -63,6 +63,8 @@ describe('Local Usecases', () => {
     const getCompanyLocalsDto: GetCompanyLocalsDto = {
       userId: faker.datatype.number(),
       companyId: faker.datatype.number(),
+      itemsPerPage: 10,
+      pageNumber: 1,
     };
 
     const result = await localUseCases.getCompanyLocals(getCompanyLocalsDto);

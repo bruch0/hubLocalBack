@@ -82,7 +82,9 @@ describe('Company Module - E2E', () => {
       .set('Authorization', 'Bearer ' + token)
       .send(createCompanyDto);
 
-    const companies = await nestApp.get('/companies').set('Authorization', 'Bearer ' + token);
+    const companies = await nestApp
+      .get('/companies?itemsPerPage=10&pageNumber=1')
+      .set('Authorization', 'Bearer ' + token);
 
     return { company: companies.body[0], token };
   };
@@ -98,7 +100,7 @@ describe('Company Module - E2E', () => {
       const { token } = await createUser();
 
       await nestApp
-        .get('/companies')
+        .get('/companies?itemsPerPage=10&pageNumber=1')
         .set('Authorization', 'Bearer ' + token)
         .expect(200);
     });

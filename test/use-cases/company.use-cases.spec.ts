@@ -55,6 +55,8 @@ describe('Company Usecases', () => {
 
     const getUserCompaniesDto: GetUserCompaniesDto = {
       userId: faker.datatype.number(),
+      itemsPerPage: 10,
+      pageNumber: 1,
     };
 
     const result = await companyUseCases.getUserCompanies(getUserCompaniesDto);

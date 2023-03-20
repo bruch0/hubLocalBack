@@ -40,6 +40,8 @@ export const generateFindCompanyDto = (): FindCompanyDto => {
 export const generateGetUserCompaniesDto = (): GetUserCompaniesDto => {
   return {
     userId: faker.datatype.number(),
+    itemsPerPage: 10,
+    pageNumber: 1,
   };
 };
 
@@ -79,6 +81,8 @@ export const generateGetCompanyLocalsDto = (): GetCompanyLocalsDto => {
   return {
     companyId: faker.datatype.number(),
     userId: faker.datatype.number(),
+    itemsPerPage: 10,
+    pageNumber: 1,
   };
 };
 

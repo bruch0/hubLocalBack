@@ -37,9 +37,11 @@ describe('Controller', () => {
 
       const getUserCompaniesDto = {
         userId: faker.datatype.number(),
+        itemsPerPage: 10,
+        pageNumber: 1,
       };
 
-      await controller.getUserCompanies(JSON.stringify(getUserCompaniesDto));
+      await controller.getUserCompanies(10, 1, JSON.stringify(getUserCompaniesDto));
 
       expect(mockedCompanyUseCases.getUserCompanies).toHaveBeenCalledWith(getUserCompaniesDto);
     });
