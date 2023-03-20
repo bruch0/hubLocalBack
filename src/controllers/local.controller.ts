@@ -8,6 +8,7 @@ import {
   Param,
   ParseIntPipe,
   Headers,
+  Query,
 } from '@nestjs/common';
 import { ApiResponse, ApiHeader } from '@nestjs/swagger';
 
@@ -24,13 +25,14 @@ export class LocalController {
   @ApiResponse({ status: 200, description: 'Success' })
   @Get('/:companyId')
   getCompanyLocals(
-    @Body() getCompanyLocalsDto: GetCompanyLocalsDto,
+    @Query('itemsPerPage', ParseIntPipe) itemsPerPage: number,
+    @Query('pageNumber', ParseIntPipe) pageNumber: number,
     @Param('companyId', ParseIntPipe) companyId: number,
     @Headers('authorization') authorization: string,
   ) {
     const { userId } = JSON.parse(authorization);
 
-    return this.localUseCases.getCompanyLocals({ ...getCompanyLocalsDto, companyId, userId });
+    return this.localUseCases.getCompanyLocals({ itemsPerPage, pageNumber, companyId, userId });
   }
 
   @ApiHeader({ name: 'authorization', required: true, description: 'Bearer token' })
