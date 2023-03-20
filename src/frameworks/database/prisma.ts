@@ -49,6 +49,7 @@ export class DatabaseService implements GenericDatabase {
         name: true,
         taxId: true,
         siteUrl: true,
+        locals: true,
       },
       take: getUserCompaniesDto.itemsPerPage,
       skip: (getUserCompaniesDto.pageNumber - 1) * getUserCompaniesDto.itemsPerPage,
@@ -108,8 +109,8 @@ export class DatabaseService implements GenericDatabase {
         streetAddress: true,
         number: true,
       },
-      take: getCompanyLocalsDto.itemsPerPage,
-      skip: (getCompanyLocalsDto.pageNumber - 1) * getCompanyLocalsDto.itemsPerPage,
+      take: itemsPerPage,
+      skip: (pageNumber - 1) * itemsPerPage,
     });
   };
 
