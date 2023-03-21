@@ -2,7 +2,7 @@ name: Test
 on:
   push:
 jobs:
-  LintCode:
+  RunTests:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
