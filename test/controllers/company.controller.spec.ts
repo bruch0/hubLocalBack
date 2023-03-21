@@ -99,7 +99,7 @@ describe('Controller', () => {
       };
 
       await controller.deleteCompany(
-        deleteCompanyDto,
+        deleteCompanyDto.id,
         JSON.stringify({ userId: deleteCompanyDto.userId }),
       );
 

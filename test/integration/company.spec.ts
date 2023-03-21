@@ -82,11 +82,11 @@ describe('Company Module - E2E', () => {
       .set('Authorization', 'Bearer ' + token)
       .send(createCompanyDto);
 
-    const companies = await nestApp
+    const data = await nestApp
       .get('/companies?itemsPerPage=10&pageNumber=1')
       .set('Authorization', 'Bearer ' + token);
 
-    return { company: companies.body[0], token };
+    return { company: data.body.companies[0], token };
   };
 
   describe(`GET /companies`, () => {
@@ -176,9 +176,9 @@ describe('Company Module - E2E', () => {
 
   describe(`DELETE /companies`, () => {
     it('Should return status 401 while not sending a valid authToken', async () => {
-      await nestApp.post('/companies').expect(401);
-      await nestApp.post('/companies').set('Auth', 'Bearer ').expect(401);
-      await nestApp.post('/companies').set('Authorization', '').expect(401);
+      await nestApp.delete('/companies/1').expect(401);
+      await nestApp.delete('/companies/1').set('Auth', 'Bearer ').expect(401);
+      await nestApp.delete('/companies/1').set('Authorization', '').expect(401);
     });
 
     it('Should return status 200 when sending a valid authToken and valid body', async () => {
@@ -187,9 +187,8 @@ describe('Company Module - E2E', () => {
       const updateCompanyDto = generateUpdateCompanyDto(company.id);
 
       await nestApp
-        .delete('/companies')
+        .delete(`/companies/${updateCompanyDto.id}`)
         .set('Authorization', 'Bearer ' + token)
-        .send({ id: updateCompanyDto.id })
         .expect(200);
     });
 
@@ -200,9 +199,8 @@ describe('Company Module - E2E', () => {
       const updateCompanyDto = generateUpdateCompanyDto(company.id);
 
       await nestApp
-        .delete('/companies')
+        .delete(`/companies/${updateCompanyDto.id}`)
         .set('Authorization', 'Bearer ' + token)
-        .send({ id: updateCompanyDto.id })
         .expect(403);
     });
   });

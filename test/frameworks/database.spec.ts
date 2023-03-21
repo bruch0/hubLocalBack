@@ -94,7 +94,11 @@ describe('Database Service', () => {
     const result = await databaseService.createCompany(createCompanyDto);
 
     delete createCompanyDto.userId;
-    expect(result).toEqual(createCompanyDto);
+    expect(result).toEqual({
+      ...createCompanyDto,
+      id: expect.any(Number),
+      locals: expect.any(Array),
+    });
   });
 
   it('Should throw an error when the companyId is invalid', async () => {
@@ -114,7 +118,11 @@ describe('Database Service', () => {
     delete updateCompanyDto.id;
     delete updateCompanyDto.userId;
 
-    expect(result).toEqual(updateCompanyDto);
+    expect(result).toEqual({
+      ...updateCompanyDto,
+      id: expect.any(Number),
+      locals: expect.any(Array),
+    });
   });
 
   it('Should an empty array of companies', async () => {
@@ -122,7 +130,7 @@ describe('Database Service', () => {
 
     const result = await databaseService.getUserCompanies(getUserCompaniesDto);
 
-    expect(result).toEqual([]);
+    expect(result).toEqual({ companies: [], pages: 0 });
   });
 
   it('Should an array of companies', async () => {
@@ -131,8 +139,8 @@ describe('Database Service', () => {
 
     const result = await databaseService.getUserCompanies(getUserCompaniesDto);
 
-    expect(result).toEqual(
-      expect.arrayContaining([
+    expect(result).toEqual({
+      companies: expect.arrayContaining([
         expect.objectContaining({
           id: expect.any(Number),
           name: expect.any(String),
@@ -140,7 +148,8 @@ describe('Database Service', () => {
           siteUrl: expect.any(String),
         }),
       ]),
-    );
+      pages: 1,
+    });
   });
 
   it('Should throw an error when the companyId is invalid', async () => {
@@ -237,7 +246,7 @@ describe('Database Service', () => {
 
     const result = await databaseService.getCompanyLocals(getCompanyLocalsDto);
 
-    expect(result).toEqual([]);
+    expect(result).toEqual({ locals: [], pages: 0 });
   });
 
   it('Should an array of locals', async () => {
@@ -247,8 +256,8 @@ describe('Database Service', () => {
 
     const result = await databaseService.getCompanyLocals(getCompanyLocalsDto);
 
-    expect(result).toEqual(
-      expect.arrayContaining([
+    expect(result).toEqual({
+      locals: expect.arrayContaining([
         expect.objectContaining({
           id: expect.any(Number),
           name: expect.any(String),
@@ -260,7 +269,8 @@ describe('Database Service', () => {
           number: expect.any(Number),
         }),
       ]),
-    );
+      pages: 1,
+    });
   });
 
   it('Should throw an error when the localId is invalid', async () => {

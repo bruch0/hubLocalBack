@@ -104,7 +104,7 @@ describe('Controller', () => {
       };
 
       await controller.deleteLocal(
-        deleteLocalDto,
+        deleteLocalDto.id,
         JSON.stringify({ userId: deleteLocalDto.userId }),
       );
 
