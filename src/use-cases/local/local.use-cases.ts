@@ -15,7 +15,9 @@ export class LocalUseCases {
     private localFactoryService: LocalFactoryService,
   ) {}
 
-  async getCompanyLocals(getCompanyLocalsDto: GetCompanyLocalsDto): Promise<ResponseLocal[]> {
+  async getCompanyLocals(
+    getCompanyLocalsDto: GetCompanyLocalsDto,
+  ): Promise<{ locals: ResponseLocal[]; pages: number }> {
     return this.databaseService.getCompanyLocals(getCompanyLocalsDto);
   }
 

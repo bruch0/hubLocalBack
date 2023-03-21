@@ -19,7 +19,9 @@ export class GenericDatabase {
 
   createUser: (createUserDto: CreateUserDto) => Promise<ResponseUser>;
 
-  getUserCompanies: (getUserCompaniesDto: GetUserCompaniesDto) => Promise<ResponseCompany[]>;
+  getUserCompanies: (
+    getUserCompaniesDto: GetUserCompaniesDto,
+  ) => Promise<{ companies: ResponseCompany[]; pages: number }>;
 
   findCompany: (findCompanyDto: FindCompanyDto) => Promise<Company>;
 
@@ -29,7 +31,9 @@ export class GenericDatabase {
 
   deleteCompany: (deleteCompanyDto: DeleteCompanyDto) => Promise<ResponseCompany>;
 
-  getCompanyLocals: (getCompanyLocalsDto: GetCompanyLocalsDto) => Promise<ResponseLocal[]>;
+  getCompanyLocals: (
+    getCompanyLocalsDto: GetCompanyLocalsDto,
+  ) => Promise<{ locals: ResponseLocal[]; pages: number }>;
 
   findLocal: (findLocalDto: FindLocalDto) => Promise<{
     number: number;

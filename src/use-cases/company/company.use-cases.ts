@@ -21,7 +21,9 @@ export class CompanyUseCases {
     private companyFactoryService: CompanyFactoryService,
   ) {}
 
-  async getUserCompanies(getUserCompaniesDto: GetUserCompaniesDto): Promise<ResponseCompany[]> {
+  async getUserCompanies(
+    getUserCompaniesDto: GetUserCompaniesDto,
+  ): Promise<{ companies: ResponseCompany[]; pages: number }> {
     return this.databaseService.getUserCompanies(getUserCompaniesDto);
   }
 

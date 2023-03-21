@@ -41,8 +41,8 @@ export class DatabaseService implements GenericDatabase {
   createUser = async (createUserDto: CreateUserDto) =>
     await this.prismaService.user.create({ data: createUserDto, select: { email: true } });
 
-  getUserCompanies = async (getUserCompaniesDto: GetUserCompaniesDto) =>
-    await this.prismaService.company.findMany({
+  getUserCompanies = async (getUserCompaniesDto: GetUserCompaniesDto) => {
+    const companies = await this.prismaService.company.findMany({
       where: { userId: getUserCompaniesDto.userId, deleted: false },
       select: {
         id: true,
@@ -55,6 +55,13 @@ export class DatabaseService implements GenericDatabase {
       skip: (getUserCompaniesDto.pageNumber - 1) * getUserCompaniesDto.itemsPerPage,
     });
 
+    const totalCompanies = await this.prismaService.company.count({
+      where: { userId: getUserCompaniesDto.userId, deleted: false },
+    });
+
+    return { companies, pages: Math.ceil(totalCompanies / getUserCompaniesDto.itemsPerPage) };
+  };
+
   findCompany = async (findCompanyDto: FindCompanyDto) =>
     await this.prismaService.company.findFirst({
       where: { ...findCompanyDto, deleted: false },
@@ -63,7 +70,7 @@ export class DatabaseService implements GenericDatabase {
   createCompany = async (createCompanyDto: CreateCompanyDto) =>
     await this.prismaService.company.create({
       data: createCompanyDto,
-      select: { name: true, taxId: true, siteUrl: true },
+      select: { id: true, name: true, taxId: true, siteUrl: true, locals: true },
     });
 
   updateCompany = async (updateCompanyDto: UpdateCompanyDto) => {
@@ -76,9 +83,11 @@ export class DatabaseService implements GenericDatabase {
       data: companyUpdateData,
       where: { id: updateCompanyDto.id },
       select: {
+        id: true,
         name: true,
         taxId: true,
         siteUrl: true,
+        locals: true,
       },
     });
   };
@@ -97,7 +106,7 @@ export class DatabaseService implements GenericDatabase {
   getCompanyLocals = async (getCompanyLocalsDto: GetCompanyLocalsDto) => {
     const { companyId, userId, itemsPerPage, pageNumber } = getCompanyLocalsDto;
 
-    return await this.prismaService.local.findMany({
+    const locals = await this.prismaService.local.findMany({
       where: { company: { id: companyId, userId: userId }, deleted: false },
       select: {
         id: true,
@@ -112,6 +121,12 @@ export class DatabaseService implements GenericDatabase {
       take: itemsPerPage,
       skip: (pageNumber - 1) * itemsPerPage,
     });
+
+    const totalLocals = await this.prismaService.local.count({
+      where: { company: { id: companyId, userId: userId }, deleted: false },
+    });
+
+    return { locals, pages: Math.ceil(totalLocals / itemsPerPage) };
   };
 
   findLocal = async (findLocalDto: FindLocalDto) =>
@@ -129,9 +144,18 @@ export class DatabaseService implements GenericDatabase {
       },
     });
 
-  createLocal = async (createLocalDto: CreateLocalDto) =>
-    await this.prismaService.local.create({
-      data: createLocalDto,
+  createLocal = async (createLocalDto: CreateLocalDto) => {
+    return await this.prismaService.local.create({
+      data: {
+        name: createLocalDto.name,
+        zipcode: createLocalDto.zipcode,
+        state: createLocalDto.state,
+        city: createLocalDto.city,
+        neighborhood: createLocalDto.neighborhood,
+        streetAddress: createLocalDto.streetAddress,
+        number: createLocalDto.number,
+        company: { connect: { id: createLocalDto.companyId } },
+      },
       select: {
         name: true,
         zipcode: true,
@@ -143,6 +167,7 @@ export class DatabaseService implements GenericDatabase {
         company: { select: { userId: true } },
       },
     });
+  };
 
   updateLocal = async (updateLocalDto: UpdateLocalDto) => {
     const localUpdateData: UpdateLocalDto = { ...updateLocalDto };

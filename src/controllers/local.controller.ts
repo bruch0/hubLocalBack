@@ -52,7 +52,7 @@ export class LocalController {
   @ApiResponse({ status: 200, description: 'Success' })
   @Put()
   updateLocal(
-    @Body() updateLocalDto: UpdateLocalDto,
+    @Body() updateLocalDto: Omit<UpdateLocalDto, 'userId'>,
     @Headers('authorization') authorization: string,
   ) {
     const { userId } = JSON.parse(authorization);
@@ -63,13 +63,13 @@ export class LocalController {
   @ApiResponse({ status: 404, description: 'Not Found' })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
   @ApiResponse({ status: 200, description: 'Success' })
-  @Delete()
+  @Delete('/:localId')
   deleteLocal(
-    @Body() deleteLocalDto: Omit<DeleteLocalDto, 'userId'>,
+    @Param('localId', ParseIntPipe) localId: number,
     @Headers('authorization') authorization: string,
   ) {
     const { userId } = JSON.parse(authorization);
 
-    return this.localUseCases.deleteLocal({ ...deleteLocalDto, userId });
+    return this.localUseCases.deleteLocal({ id: localId, userId });
   }
 }

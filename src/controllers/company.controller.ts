@@ -8,6 +8,7 @@ import {
   Headers,
   Query,
   ParseIntPipe,
+  Param,
 } from '@nestjs/common';
 import { ApiResponse, ApiHeader } from '@nestjs/swagger';
 
@@ -65,13 +66,13 @@ export class CompanyController {
   @ApiResponse({ status: 404, description: 'Not Found' })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
   @ApiResponse({ status: 200, description: 'Success' })
-  @Delete()
+  @Delete('/:companyId')
   deleteCompany(
-    @Body() DeleteCompanyDto: Omit<DeleteCompanyDto, 'userId'>,
+    @Param('companyId', ParseIntPipe) companyId: number,
     @Headers('authorization') authorization: string,
   ) {
     const { userId } = JSON.parse(authorization);
 
-    return this.companyUseCases.deleteCompany({ ...DeleteCompanyDto, userId });
+    return this.companyUseCases.deleteCompany({ id: companyId, userId });
   }
 }
