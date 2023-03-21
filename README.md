@@ -46,7 +46,9 @@ npm i
 ### Preencha os dados em um arquivo .env.development
 
 ```bash
-npm i
+DATABASE_URL=
+JWT_SECRET=
+PORT=
 ```
 
 ### Use a linha de comando para rodar os scripts
