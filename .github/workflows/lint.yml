@@ -1,0 +1,15 @@
+name: Build and Lint
+on:
+  push:
+jobs:
+  LintCode:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Install dependencies
+        run: npm i
+
+      - name: Lint
+        run: npm run lint
