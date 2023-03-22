@@ -58,3 +58,7 @@ npm run db:migrate -> Roda as migrations
 npm run start:dev -> Inicia o app
 npm run test:cov -> Roda os testes criados com Jest e retorna a cobertura de testes
 ```
+
+## Acessar documentação da API
+
+A documentação foi feita utilizando Swagger, então é possível acessar via localhost:PORT/api.
